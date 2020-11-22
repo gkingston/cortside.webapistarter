@@ -252,4 +252,4 @@ coverage.opencover.xml
 .vscode/*
 
 *.ncrunchproject
-*.user.json
+*.local.json
