@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Cortside.Common.Correlation;
 using Cortside.Common.Hosting;
 using Cortside.WebApiStarter.Configuration;

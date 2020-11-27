@@ -1,4 +1,4 @@
-﻿using Cortside.Common.BootStrap;
+using Cortside.Common.BootStrap;
 using Cortside.WebApiStarter.Configuration;
 using Cortside.WebApiStarter.Hosting;
 using Microsoft.Extensions.Configuration;
