@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="utf-16"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Cortside.WebApiStarter.WebApi.xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="HostedServices\**" />
     <Compile Remove="Logs\**" />
@@ -32,15 +28,12 @@
     <None Remove="Models\Requests\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Remove="appsettings.Staging.json" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Cortside.WebApiStarter.WebApi.xml" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
@@ -79,20 +72,14 @@
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Cortside.WebApiStarter.Configuration\Cortside.WebApiStarter.Configuration.csproj" />
     <ProjectReference Include="..\Cortside.WebApiStarter.BootStrap\Cortside.WebApiStarter.BootStrap.csproj" />
     <ProjectReference Include="..\Cortside.WebApiStarter.DomainService\Cortside.WebApiStarter.DomainService.csproj" />
-    <ProjectReference Include="..\Cortside.WebApiStarter.Health\Cortside.WebApiStarter.Health.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Update="appsettings.local.json">
       <TransformOnBuild>true</TransformOnBuild>
@@ -105,9 +92,7 @@
       <TransformOnBuild>true</TransformOnBuild>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
-
 </Project>

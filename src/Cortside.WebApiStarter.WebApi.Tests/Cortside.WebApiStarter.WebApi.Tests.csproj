@@ -1,22 +1,17 @@
-<?xml version="1.0" encoding="utf-16"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Events\**" />
     <EmbeddedResource Remove="Events\**" />
     <None Remove="Events\**" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Cortside.Template.WebApi.Tests.v3.ncrunchproject" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="coverlet.msbuild" Version="2.9.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -38,15 +33,12 @@
     </PackageReference>
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Cortside.WebApiStarter.WebApi\Cortside.WebApiStarter.WebApi.csproj" />
   </ItemGroup>
-
 </Project>

@@ -1,17 +1,14 @@
-<?xml version="1.0" encoding="utf-16"?><Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <IsPackable>false</IsPackable>
     <Configurations>Develop;Production;Staging;QA;Debug</Configurations>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="appsettings.integration.json" />
     <None Remove="EnerBank.WebApiStarter.WebApi.IntegrationTests.v3.ncrunchproject" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="appsettings.integration.json">
       <TransformOnBuild>true</TransformOnBuild>
@@ -19,7 +16,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Cortside.Common.DomainEvent" Version="1.0.155" />
     <PackageReference Include="coverlet.msbuild" Version="2.9.0">
@@ -42,17 +38,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Cortside.WebApiStarter.Data\Cortside.WebApiStarter.Data.csproj" />
-    <ProjectReference Include="..\Cortside.WebApiStarter.Domain\Cortside.WebApiStarter.Domain.csproj" />
     <ProjectReference Include="..\Cortside.WebApiStarter.WebApi\Cortside.WebApiStarter.WebApi.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="Data\Ids\configuration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -61,5 +53,4 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>
