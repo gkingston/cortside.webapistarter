@@ -4,7 +4,7 @@ Param(
 )
 
 Write-Output "===== USAGE EXAMPLE ====="
-Write-Output  'PS C:\work\onlineapplication\EnerBankOnlineApplication\sql> .\convert-encoding.ps1 -filePaths ((gci *.trigger.sql -Recurse) | % { $_.FullName })'
+Write-Output  'PS C:\work\cortside.webapistarter> .\convert-encoding.ps1 -filePaths ((gci *.trigger.sql -Recurse) | % { $_.FullName })'
 Write-Output "========================="
 
 
