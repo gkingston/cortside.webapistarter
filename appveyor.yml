@@ -38,7 +38,7 @@ build:
   verbosity: minimal
 
 build_script:
-- ps: build.ps1
+- ps: ./build.ps1
 
 artifacts:
   - path: artifacts\**\*.*
