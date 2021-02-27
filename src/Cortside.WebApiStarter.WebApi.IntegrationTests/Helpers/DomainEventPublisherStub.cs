@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Cortside.Common.DomainEvent;
+using Cortside.DomainEvent;
 
 namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers {
     public class DomainEventPublisherStub : IDomainEventPublisher {

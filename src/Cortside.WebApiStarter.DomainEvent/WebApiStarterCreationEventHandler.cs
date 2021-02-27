@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Cortside.Common.DomainEvent;
+using Cortside.DomainEvent;
 using Cortside.DomainEvent.Events;
 using Cortside.WebApiStarter.DomainService;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,35 +25,19 @@ namespace Cortside.WebApiStarter.DomainEvent {
             this.serviceProvider = serviceProvider;
             this.logger = logger;
         }
-
-
-        /// <summary>
-        /// Handle message event
-        /// </summary>
-        /// <param name="event"></param>
-        /// <returns></returns>
-        public async Task Handle(DomainEventMessage<WebApiStarterCreationEvent> @event) {
+        public async Task<HandlerResult> HandleAsync(DomainEventMessage<WebApiStarterCreationEvent> @event) {
             using (LogContext.PushProperty("MessageId", @event.MessageId))
-            using (LogContext.PushProperty("CorrelationId", @event.CorrelationId)) {
-                await Handle(@event.Data);
-            }
-        }
-
-        /// <summary>
-        /// Handle message
-        /// </summary>
-        /// <param name="event"></param>
-        /// <returns></returns>
-        public async Task Handle(WebApiStarterCreationEvent @event) {
-            using (LogContext.PushProperty("Parameter", @event.Parameter)) {
-                logger.LogDebug($"Handling {typeof(WebApiStarterCreationEvent).Name} for WebApiStarter {@event.Parameter}");
+            using (LogContext.PushProperty("CorrelationId", @event.CorrelationId))
+            using (LogContext.PushProperty("Parameter", @event.Data.Parameter)) {
+                logger.LogDebug($"Handling {typeof(WebApiStarterCreationEvent).Name} for WebApiStarter {@event.Data.Parameter}");
 
                 using (IServiceScope scope = serviceProvider.CreateScope()) {
                     IWebApiStarterService WebApiStarterService = scope.ServiceProvider.GetRequiredService<IWebApiStarterService>();
-                    await WebApiStarterService.CreateWebApiStarter(@event.Parameter);
+                    await WebApiStarterService.CreateWebApiStarter(@event.Data.Parameter);
                 }
 
-                logger.LogDebug($"Successfully handled {typeof(WebApiStarterCreationEvent).Name} for WebApiStarter {@event.Parameter}");
+                logger.LogDebug($"Successfully handled {typeof(WebApiStarterCreationEvent).Name} for WebApiStarter {@event.Data.Parameter}");
+                return HandlerResult.Success;
             }
         }
     }

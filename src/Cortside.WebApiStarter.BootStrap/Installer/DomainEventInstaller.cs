@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Cortside.Common.BootStrap;
-using Cortside.Common.DomainEvent;
+using Cortside.DomainEvent;
+using Cortside.DomainEvent.EntityFramework;
 using Cortside.DomainEvent.Events;
+using Cortside.WebApiStarter.Data;
 using Cortside.WebApiStarter.DomainEvent;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +39,7 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
 
             // Register Hosted Services
             services.AddSingleton<IDomainEventPublisher, DomainEventPublisher>();
+            services.AddTransient<IDomainEventOutboxPublisher, DomainEventOutboxPublisher<DatabaseContext>>();
             services.AddTransient<IDomainEventHandler<WebApiStarterCreationEvent>, WebApiStarterCreationEventHandler>();
             services.AddSingleton<IDomainEventReceiver, DomainEventReceiver>();
 

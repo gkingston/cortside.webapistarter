@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
@@ -7,9 +7,10 @@
     <Compile Remove="Migrations\20191107001632_RemoveNullableValues.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Cortside.DomainEvent.EntityFramework" Version="1.1.2-develop" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.12" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cortside.WebApiStarter.Domain\Cortside.WebApiStarter.Domain.csproj" />

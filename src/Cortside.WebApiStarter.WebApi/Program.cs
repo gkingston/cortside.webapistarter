@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 using System.IO;
-using Cortside.Common.DomainEvent;
+using Cortside.DomainEvent;
 using Cortside.WebApiStarter.WebApi.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

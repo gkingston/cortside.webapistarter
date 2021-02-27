@@ -1,4 +1,4 @@
-using Cortside.Common.DomainEvent;
+using Cortside.DomainEvent;
 using Cortside.WebApiStarter.Data;
 using Moq;
 using Xunit.Abstractions;

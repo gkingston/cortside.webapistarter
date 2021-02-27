@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Cortside.DomainEvent.EntityFramework;
 using Cortside.WebApiStarter.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -115,10 +116,8 @@ namespace Cortside.WebApiStarter.Data {
             modelBuilder.Entity<Domain.WebApiStarter>()
                 .HasOne(p => p.LastModifiedSubject);
             modelBuilder.HasDefaultSchema("dbo");
-        }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseLazyLoadingProxies();
+            modelBuilder.AddDomainEventOutbox();
         }
 
         public Task<int> SaveChangesAsync() {
