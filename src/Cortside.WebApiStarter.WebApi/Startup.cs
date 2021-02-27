@@ -2,7 +2,6 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
-using AutoMapper;
 using Cortside.Common.BootStrap;
 using Cortside.Common.Correlation;
 using Cortside.Common.Json;
@@ -55,6 +54,13 @@ namespace Cortside.WebApiStarter.WebApi {
         /// </summary>
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services) {
+            services.AddSingleton<ITelemetryInitializer, AppInsightsInitializer>();
+            services.AddApplicationInsightsTelemetry(o => {
+                o.InstrumentationKey = Configuration["ApplicationInsights:InstrumentationKey"];
+                o.EnableAdaptiveSampling = false;
+                o.EnableActiveTelemetryConfigurationSetup = true;
+            });
+
             services.AddResponseCaching();
             services.AddResponseCompression(options => {
                 options.Providers.Add<GzipCompressionProvider>();
@@ -136,9 +142,6 @@ namespace Cortside.WebApiStarter.WebApi {
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-
-            services.AddSingleton<ITelemetryInitializer, AppInsightsInitializer>();
-            services.AddApplicationInsightsTelemetry();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddPolicyServerRuntimeClient(Configuration.GetSection("PolicyServer"))

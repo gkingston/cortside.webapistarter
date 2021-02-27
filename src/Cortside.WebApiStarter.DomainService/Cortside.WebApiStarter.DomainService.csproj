@@ -1,13 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Configurations>Production;Develop;QA;Staging;Debug</Configurations>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Cortside.Common.Correlation" Version="1.0.155" />
-    <PackageReference Include="Cortside.Common.DomainEvent" Version="1.0.155" />
-    <PackageReference Include="PolicyServer.Runtime.Client.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="Cortside.Common.Correlation" Version="1.0.165" />
+    <PackageReference Include="Cortside.Common.DomainEvent" Version="1.0.165" />
+    <PackageReference Include="PolicyServer.Runtime.Client.AspNetCore" Version="4.2.0" />
     <PackageReference Include="RestSharp" Version="106.11.7" />
   </ItemGroup>
   <ItemGroup>
