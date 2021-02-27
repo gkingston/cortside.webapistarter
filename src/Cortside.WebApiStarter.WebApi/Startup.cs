@@ -83,6 +83,7 @@ namespace Cortside.WebApiStarter.WebApi {
                     Duration = 30,
                     Location = ResponseCacheLocation.Any
                 });
+                //https://stackoverflow.com/questions/55127637/globally-modelstate-validation-in-asp-net-core-mvc
                 //options.Filters.Add<MessageExceptionResponseFilter>();
             })
                 .AddNewtonsoftJson(options => {

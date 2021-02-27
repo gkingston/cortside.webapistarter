@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using Cortside.Common.DomainEvent;
 using Cortside.WebApiStarter.WebApi.Models;
@@ -54,6 +55,8 @@ namespace Cortside.WebApiStarter.WebApi {
                 loggerConfiguration.WriteTo.Seq(serverUrl);
             }
             Log.Logger = loggerConfiguration.CreateLogger();
+
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
             try {
                 Log.Information("Starting {Service}");
