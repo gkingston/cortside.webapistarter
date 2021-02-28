@@ -33,7 +33,7 @@ namespace Cortside.WebApiStarter.DomainEvent {
 
                 using (IServiceScope scope = serviceProvider.CreateScope()) {
                     IWidgetService WebApiStarterService = scope.ServiceProvider.GetRequiredService<IWidgetService>();
-                    await WebApiStarterService.CreateWidget(@event.Data.Text);
+                    //await WebApiStarterService.CreateWidget(@event.Data.Text);
                 }
 
                 logger.LogDebug($"Successfully handled {typeof(WidgetStageChangedEvent).Name} for WebApiStarter {@event.Data.WidgetId}");

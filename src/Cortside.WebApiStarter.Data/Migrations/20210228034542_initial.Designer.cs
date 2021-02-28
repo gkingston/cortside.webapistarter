@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cortside.WebApiStarter.Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210228015859_DomainEventOutbox")]
-    partial class DomainEventOutbox
+    [Migration("20210228034542_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,47 +21,6 @@ namespace Cortside.WebApiStarter.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Cortside.DomainEvent.EntityFramework.Outbox", b =>
-                {
-                    b.Property<string>("MessageId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Body")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CorrelationId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EventType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LockId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PublishedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ScheduledDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("MessageId");
-
-                    b.HasIndex("ScheduledDate", "Status")
-                        .HasName("IX_ScheduleDate_Status")
-                        .HasAnnotation("SqlServer:Include", new[] { "EventType" });
-
-                    b.ToTable("Outbox");
-                });
 
             modelBuilder.Entity("Cortside.WebApiStarter.Domain.Subject", b =>
                 {

@@ -12,7 +12,7 @@ BEGIN
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228004356_initial')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228034542_initial')
 BEGIN
     CREATE TABLE [dbo].[Subject] (
         [SubjectId] uniqueidentifier NOT NULL,
@@ -26,7 +26,7 @@ BEGIN
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228004356_initial')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228034542_initial')
 BEGIN
     CREATE TABLE [dbo].[Widget] (
         [WidgetId] int NOT NULL IDENTITY,
@@ -44,22 +44,22 @@ BEGIN
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228004356_initial')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228034542_initial')
 BEGIN
     CREATE INDEX [IX_Widget_CreateSubjectId] ON [dbo].[Widget] ([CreateSubjectId]);
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228004356_initial')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228034542_initial')
 BEGIN
     CREATE INDEX [IX_Widget_LastModifiedSubjectId] ON [dbo].[Widget] ([LastModifiedSubjectId]);
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228004356_initial')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228034542_initial')
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20210228004356_initial', N'3.1.12');
+    VALUES (N'20210228034542_initial', N'3.1.12');
 END;
 
 

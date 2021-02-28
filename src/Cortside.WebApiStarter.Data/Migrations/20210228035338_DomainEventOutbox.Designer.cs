@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cortside.WebApiStarter.Data.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210228004356_initial")]
-    partial class initial
+    [Migration("20210228035338_DomainEventOutbox")]
+    partial class DomainEventOutbox
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,57 @@ namespace Cortside.WebApiStarter.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Cortside.DomainEvent.EntityFramework.Outbox", b =>
+                {
+                    b.Property<string>("MessageId")
+                        .HasColumnType("nvarchar(36)")
+                        .HasMaxLength(36);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CorrelationId")
+                        .HasColumnType("nvarchar(36)")
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("LockId")
+                        .HasColumnType("nvarchar(36)")
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime?>("PublishedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ScheduledDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(10)")
+                        .HasMaxLength(10);
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ScheduledDate", "Status")
+                        .HasName("IX_ScheduleDate_Status")
+                        .HasAnnotation("SqlServer:Include", new[] { "EventType" });
+
+                    b.ToTable("Outbox");
+                });
 
             modelBuilder.Entity("Cortside.WebApiStarter.Domain.Subject", b =>
                 {

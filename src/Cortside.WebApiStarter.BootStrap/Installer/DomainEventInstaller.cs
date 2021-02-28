@@ -48,6 +48,11 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
                 { typeof(WidgetStageChangedEvent).FullName, typeof(WidgetStageChangedEvent) }
             };
             services.AddSingleton(receiverHostedServiceSettings);
+
+            // outbox hosted service
+            var outboxConfiguration = configuration.GetSection("OutboxHostedService").Get<OutboxHostedServiceConfiguration>();
+            services.AddSingleton(outboxConfiguration);
+            services.AddHostedService<OutboxHostedService<DatabaseContext>>();
         }
     }
 }

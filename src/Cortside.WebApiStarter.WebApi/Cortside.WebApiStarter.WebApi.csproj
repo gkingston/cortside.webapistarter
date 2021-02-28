@@ -93,7 +93,4 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Requests\" />
-  </ItemGroup>
 </Project>

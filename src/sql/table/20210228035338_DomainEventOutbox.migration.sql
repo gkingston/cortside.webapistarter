@@ -2,34 +2,34 @@
 BEGIN TRY
 	BEGIN TRAN
 	PRINT 'First Statement in the TRY block'
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228015859_DomainEventOutbox')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228035338_DomainEventOutbox')
 BEGIN
     CREATE TABLE [dbo].[Outbox] (
-        [MessageId] nvarchar(450) NOT NULL,
-        [CorrelationId] nvarchar(max) NULL,
-        [EventType] nvarchar(max) NULL,
-        [Address] nvarchar(max) NULL,
-        [Body] nvarchar(max) NULL,
-        [Status] int NOT NULL,
+        [MessageId] nvarchar(36) NOT NULL,
+        [CorrelationId] nvarchar(36) NULL,
+        [EventType] nvarchar(250) NOT NULL,
+        [Address] nvarchar(250) NOT NULL,
+        [Body] nvarchar(max) NOT NULL,
+        [Status] nvarchar(10) NOT NULL,
         [CreatedDate] datetime2 NOT NULL,
         [ScheduledDate] datetime2 NOT NULL,
         [PublishedDate] datetime2 NULL,
-        [LockId] nvarchar(max) NULL,
+        [LockId] nvarchar(36) NULL,
         CONSTRAINT [PK_Outbox] PRIMARY KEY ([MessageId])
     );
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228015859_DomainEventOutbox')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228035338_DomainEventOutbox')
 BEGIN
     CREATE INDEX [IX_ScheduleDate_Status] ON [dbo].[Outbox] ([ScheduledDate], [Status]) INCLUDE ([EventType]);
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228015859_DomainEventOutbox')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228035338_DomainEventOutbox')
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20210228015859_DomainEventOutbox', N'3.1.12');
+    VALUES (N'20210228035338_DomainEventOutbox', N'3.1.12');
 END;
 
 

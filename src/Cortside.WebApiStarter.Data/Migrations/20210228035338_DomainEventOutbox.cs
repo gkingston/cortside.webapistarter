@@ -12,16 +12,16 @@ namespace Cortside.WebApiStarter.Data.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    MessageId = table.Column<string>(nullable: false),
-                    CorrelationId = table.Column<string>(nullable: true),
-                    EventType = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
-                    Body = table.Column<string>(nullable: true),
-                    Status = table.Column<int>(nullable: false),
+                    MessageId = table.Column<string>(maxLength: 36, nullable: false),
+                    CorrelationId = table.Column<string>(maxLength: 36, nullable: true),
+                    EventType = table.Column<string>(maxLength: 250, nullable: false),
+                    Address = table.Column<string>(maxLength: 250, nullable: false),
+                    Body = table.Column<string>(nullable: false),
+                    Status = table.Column<string>(maxLength: 10, nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     ScheduledDate = table.Column<DateTime>(nullable: false),
                     PublishedDate = table.Column<DateTime>(nullable: true),
-                    LockId = table.Column<string>(nullable: true)
+                    LockId = table.Column<string>(maxLength: 36, nullable: true)
                 },
                 constraints: table =>
                 {

@@ -38,7 +38,6 @@ namespace Cortside.WebApiStarter.Data {
         }
 
         private void SetAuditableEntityValues() {
-
             // check for subject in subjects set and either create or get to attach to AudibleEntity
             var updatingSubject = GetCurrentSubject();
             ChangeTracker.DetectChanges();
@@ -65,7 +64,6 @@ namespace Cortside.WebApiStarter.Data {
         /// </summary>
         /// <returns></returns>
         private Subject GetCurrentSubject() {
-
             var currentUser = GetCurrentUser();
             Guid subjectId = currentUser != null ? Guid.Parse(currentUser) : Guid.Empty;
 

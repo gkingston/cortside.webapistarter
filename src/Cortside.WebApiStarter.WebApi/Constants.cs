@@ -14,16 +14,10 @@ namespace Cortside.WebApiStarter.WebApi {
             /// Permission constants
             /// </summary>
             public static class Permissions {
-
-                /// <summary>
-                /// Create WebApiStarter permission
-                /// </summary>
-                public const string CreateWebApiStarter = "CreateWebApiStarter";
-
-                /// <summary>
-                /// Create WebApiStarter permission
-                /// </summary>
-                public const string GetWebApiStarter = "GetWebApiStarter";
+                public const string CreateWidget = "CreateWidget";
+                public const string UpdateWidget = "UpdateWidget";
+                public const string GetWidget = "GetWidget";
+                public const string GetWidgets = "GetWidgets";
             }
         }
     }
