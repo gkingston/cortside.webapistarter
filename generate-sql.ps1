@@ -29,23 +29,23 @@ GO
 "@
 
 ## get list of migrations
-$migrations = (dotnet ef migrations list --project "$project" --startup-project "$startup" --context "$context")
+$migrations = (dotnet ef migrations list --no-build --project "$project" --startup-project "$startup" --context "$context")
 
 $previousMigration="0"
 foreach($migration in $migrations) {
 	echo "Generating migration $migration..."
 	
-	$exists = test-path src/sql/$migration.migration.sql
+	$exists = test-path src/sql/table/$migration.migration.sql
 	if (!$exists) {
 	## generate single migration
-	dotnet ef migrations script $previousMigration $migration --idempotent --project "$project" --startup-project "$startup" --context "$context" --output src/sql/$migration.migration.sql
+	dotnet ef migrations script $previousMigration $migration --no-build --idempotent --project "$project" --startup-project "$startup" --context "$context" --output src/sql/table/$migration.migration.sql
 
-	$exists = test-path src/sql/$migration.migration.sql
+	$exists = test-path src/sql/table/$migration.migration.sql
 	if ($exists) {
 		## read output file, replace GO statments and prepend and append transaction syntax
-		$text = Get-Content src/sql/$migration.migration.sql -Raw 
+		$text = Get-Content src/sql/table/$migration.migration.sql -Raw 
 		$text = $text.replace("GO`r`n","")
-		"$begin$text$end" | Out-File src/sql/$migration.migration.sql -Encoding UTF8
+		"$begin$text$end" | Out-File src/sql/table/$migration.migration.sql -Encoding UTF8
 	} else {
 		echo "error generating migration"
 	}
