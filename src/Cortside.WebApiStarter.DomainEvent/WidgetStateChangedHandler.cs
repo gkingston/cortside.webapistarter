@@ -5,6 +5,7 @@ using Cortside.DomainEvent.Events;
 using Cortside.WebApiStarter.DomainService;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Serilog.Context;
 
 namespace Cortside.WebApiStarter.DomainEvent {
@@ -28,12 +29,13 @@ namespace Cortside.WebApiStarter.DomainEvent {
         public async Task<HandlerResult> HandleAsync(DomainEventMessage<WidgetStageChangedEvent> @event) {
             using (LogContext.PushProperty("MessageId", @event.MessageId))
             using (LogContext.PushProperty("CorrelationId", @event.CorrelationId))
-            using (LogContext.PushProperty("Parameter", @event.Data.WidgetId)) {
+            using (LogContext.PushProperty("WidgetId", @event.Data.WidgetId)) {
                 logger.LogDebug($"Handling {typeof(WidgetStageChangedEvent).Name} for WebApiStarter {@event.Data.WidgetId}");
 
                 using (IServiceScope scope = serviceProvider.CreateScope()) {
-                    IWidgetService WebApiStarterService = scope.ServiceProvider.GetRequiredService<IWidgetService>();
-                    //await WebApiStarterService.CreateWidget(@event.Data.Text);
+                    IWidgetService service = scope.ServiceProvider.GetRequiredService<IWidgetService>();
+                    var entity = await service.GetWidget(@event.Data.WidgetId);
+                    logger.LogInformation($"widget was observed changing it's state with body: {JsonConvert.SerializeObject(@event.Data)} and entity: {JsonConvert.SerializeObject(entity)}");
                 }
 
                 logger.LogDebug($"Successfully handled {typeof(WidgetStageChangedEvent).Name} for WebApiStarter {@event.Data.WidgetId}");

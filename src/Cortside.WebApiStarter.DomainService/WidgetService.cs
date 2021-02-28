@@ -28,10 +28,20 @@ namespace Cortside.WebApiStarter.DomainService {
                 Height = dto.Height
             };
 
-            db.WebApiStarter.Add(entity);
-            var @event = new WidgetStageChangedEvent() { Text = entity.Text };
-            await publisher.SendAsync(@event);
-            await db.SaveChangesAsync();
+            // need a transaction and 2 savechanges so that I have the id for the widget in the event
+            using (var tx = await db.Database.BeginTransactionAsync()) {
+                try {
+                    db.WebApiStarter.Add(entity);
+                    await db.SaveChangesAsync();
+                    var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
+                    await publisher.SendAsync(@event);
+                    await db.SaveChangesAsync();
+                    await tx.CommitAsync();
+                } catch (Exception ex) {
+                    await tx.RollbackAsync();
+                    throw;
+                }
+            }
 
             return ToWidgetDto(entity);
         }

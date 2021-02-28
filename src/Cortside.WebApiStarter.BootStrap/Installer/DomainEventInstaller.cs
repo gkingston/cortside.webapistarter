@@ -43,6 +43,7 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
             services.AddTransient<IDomainEventHandler<WidgetStageChangedEvent>, WidgetStateChangedHandler>();
             services.AddSingleton<IDomainEventReceiver, DomainEventReceiver>();
 
+            // TODO: change settings to be Enabled instead of Disabled
             var receiverHostedServiceSettings = configuration.GetSection("ReceiverHostedService").Get<ReceiverHostedServiceSettings>();
             receiverHostedServiceSettings.MessageTypes = new Dictionary<string, Type> {
                 { typeof(WidgetStageChangedEvent).FullName, typeof(WidgetStageChangedEvent) }
