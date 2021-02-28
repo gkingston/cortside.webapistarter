@@ -2,9 +2,11 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Cortside.DomainEvent.EntityFramework;
 using Cortside.WebApiStarter.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cortside.WebApiStarter.Data {
 
@@ -116,9 +118,34 @@ namespace Cortside.WebApiStarter.Data {
                 .HasOne(p => p.LastModifiedSubject);
             modelBuilder.HasDefaultSchema("dbo");
 
-            SetCascadeDelete(modelBuilder);
+            modelBuilder.AddDomainEventOutbox();
 
-            //modelBuilder.AddDomainEventOutbox();
+            SetDateTime(modelBuilder);
+            SetCascadeDelete(modelBuilder);
+        }
+
+        private void SetDateTime(ModelBuilder builder) {
+            // 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM
+            var min = new DateTime(1753, 1, 1, 0, 0, 0);
+            var max = new DateTime(9999, 12, 31, 23, 59, 59);
+
+            var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+                v => v < min ? min : v > max ? max : v,
+                v => v < min ? min : v > max ? max : v);
+
+            var nullableDateTimeConverter = new ValueConverter<DateTime?, DateTime?>(
+                v => v.HasValue ? v < min ? min : v > max ? max : v : v,
+                v => v.HasValue ? v < min ? min : v > max ? max : v : v);
+
+            foreach (var entityType in builder.Model.GetEntityTypes()) {
+                foreach (var property in entityType.GetProperties()) {
+                    if (property.ClrType == typeof(DateTime)) {
+                        property.SetValueConverter(dateTimeConverter);
+                    } else if (property.ClrType == typeof(DateTime?)) {
+                        property.SetValueConverter(nullableDateTimeConverter);
+                    }
+                }
+            }
         }
 
         public void SetCascadeDelete(ModelBuilder builder) {
