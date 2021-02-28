@@ -12,7 +12,7 @@ BEGIN
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228001015_initial')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228004356_initial')
 BEGIN
     CREATE TABLE [dbo].[Subject] (
         [SubjectId] uniqueidentifier NOT NULL,
@@ -26,7 +26,7 @@ BEGIN
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228001015_initial')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228004356_initial')
 BEGIN
     CREATE TABLE [dbo].[Widget] (
         [WidgetId] int NOT NULL IDENTITY,
@@ -38,28 +38,28 @@ BEGIN
         [Width] int NOT NULL,
         [Height] int NOT NULL,
         CONSTRAINT [PK_Widget] PRIMARY KEY ([WidgetId]),
-        CONSTRAINT [FK_Widget_Subject_CreateSubjectId] FOREIGN KEY ([CreateSubjectId]) REFERENCES [dbo].[Subject] ([SubjectId]) ON DELETE CASCADE,
-        CONSTRAINT [FK_Widget_Subject_LastModifiedSubjectId] FOREIGN KEY ([LastModifiedSubjectId]) REFERENCES [dbo].[Subject] ([SubjectId]) ON DELETE CASCADE
+        CONSTRAINT [FK_Widget_Subject_CreateSubjectId] FOREIGN KEY ([CreateSubjectId]) REFERENCES [dbo].[Subject] ([SubjectId]),
+        CONSTRAINT [FK_Widget_Subject_LastModifiedSubjectId] FOREIGN KEY ([LastModifiedSubjectId]) REFERENCES [dbo].[Subject] ([SubjectId])
     );
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228001015_initial')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228004356_initial')
 BEGIN
     CREATE INDEX [IX_Widget_CreateSubjectId] ON [dbo].[Widget] ([CreateSubjectId]);
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228001015_initial')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228004356_initial')
 BEGIN
     CREATE INDEX [IX_Widget_LastModifiedSubjectId] ON [dbo].[Widget] ([LastModifiedSubjectId]);
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228001015_initial')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228004356_initial')
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20210228001015_initial', N'3.1.12');
+    VALUES (N'20210228004356_initial', N'3.1.12');
 END;
 
 

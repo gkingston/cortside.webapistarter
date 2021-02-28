@@ -50,15 +50,13 @@ namespace Cortside.WebApiStarter.Data.Migrations
                         column: x => x.CreateSubjectId,
                         principalSchema: "dbo",
                         principalTable: "Subject",
-                        principalColumn: "SubjectId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SubjectId");
                     table.ForeignKey(
                         name: "FK_Widget_Subject_LastModifiedSubjectId",
                         column: x => x.LastModifiedSubjectId,
                         principalSchema: "dbo",
                         principalTable: "Subject",
-                        principalColumn: "SubjectId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SubjectId");
                 });
 
             migrationBuilder.CreateIndex(

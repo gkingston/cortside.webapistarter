@@ -94,13 +94,13 @@ namespace Cortside.WebApiStarter.Data.Migrations
                     b.HasOne("Cortside.WebApiStarter.Domain.Subject", "CreatedSubject")
                         .WithMany()
                         .HasForeignKey("CreateSubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Cortside.WebApiStarter.Domain.Subject", "LastModifiedSubject")
                         .WithMany()
                         .HasForeignKey("LastModifiedSubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

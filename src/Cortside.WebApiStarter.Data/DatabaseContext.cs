@@ -116,7 +116,16 @@ namespace Cortside.WebApiStarter.Data {
                 .HasOne(p => p.LastModifiedSubject);
             modelBuilder.HasDefaultSchema("dbo");
 
+            SetCascadeDelete(modelBuilder);
+
             //modelBuilder.AddDomainEventOutbox();
+        }
+
+        public void SetCascadeDelete(ModelBuilder builder) {
+            var fks = builder.Model.GetEntityTypes().SelectMany(t => t.GetDeclaredForeignKeys());
+            foreach (var fk in fks) {
+                fk.DeleteBehavior = DeleteBehavior.NoAction;
+            }
         }
 
         public Task<int> SaveChangesAsync() {
