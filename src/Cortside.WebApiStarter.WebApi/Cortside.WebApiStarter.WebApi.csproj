@@ -10,22 +10,18 @@
     <Compile Remove="HostedServices\**" />
     <Compile Remove="Logs\**" />
     <Compile Remove="Models\Enumerations\**" />
-    <Compile Remove="Models\Requests\**" />
     <Compile Remove="wwwroot\**" />
     <Content Remove="HostedServices\**" />
     <Content Remove="Logs\**" />
     <Content Remove="Models\Enumerations\**" />
-    <Content Remove="Models\Requests\**" />
     <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="HostedServices\**" />
     <EmbeddedResource Remove="Logs\**" />
     <EmbeddedResource Remove="Models\Enumerations\**" />
-    <EmbeddedResource Remove="Models\Requests\**" />
     <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="HostedServices\**" />
     <None Remove="Logs\**" />
     <None Remove="Models\Enumerations\**" />
-    <None Remove="Models\Requests\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
   <ItemGroup>
@@ -96,5 +92,8 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Requests\" />
   </ItemGroup>
 </Project>

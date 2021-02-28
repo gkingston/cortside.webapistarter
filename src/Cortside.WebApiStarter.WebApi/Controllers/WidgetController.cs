@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Cortside.WebApiStarter.DomainService;
-using Cortside.WebApiStarter.Dto.Dto;
+using Cortside.WebApiStarter.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,17 +15,17 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
     [ApiVersion("1")]
     [Produces("application/json")]
     [ApiController]
-    [Route("api/v1/WebApiStarter")]
+    [Route("api/v1/widgets")]
     [Authorize]
-    public class WebApiStarterController : Controller {
+    public class WidgetController : Controller {
         private readonly ILogger logger;
-        private readonly IWebApiStarterService service;
+        private readonly IWidgetService service;
         private const string GET_WebApiStarter_ROUTE = "GetWebApiStarter";
 
         /// <summary>
         /// Initializes a new instance of the WebApiStarterController
         /// </summary>
-        public WebApiStarterController(ILogger<WebApiStarterController> logger, IWebApiStarterService service) {
+        public WidgetController(ILogger<WidgetController> logger, IWidgetService service) {
             this.logger = logger;
             this.service = service;
         }
@@ -38,10 +37,10 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
         /// <returns></returns>
         [HttpGet("")]
         [Authorize(Constants.Authorization.Permissions.GetWebApiStarter)]
-        [ProducesResponseType(typeof(List<WebApiStarterDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<WidgetDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> GetWebApiStarter(List<Guid> ids) {
-            var WebApiStartersList = await service.GetWebApiStarters(ids);
+        public async Task<IActionResult> GetWebApiStarter(List<int> ids) {
+            var WebApiStartersList = await service.GetWidgets(ids);
             return Ok(WebApiStartersList);
         }
 
@@ -52,9 +51,9 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
         /// <returns></returns>
         [HttpGet("{id}", Name = GET_WebApiStarter_ROUTE)]
         [Authorize(Constants.Authorization.Permissions.GetWebApiStarter)]
-        [ProducesResponseType(typeof(WebApiStarterDto), 200)]
-        public async Task<IActionResult> GetWebApiStarter(Guid id) {
-            var WebApiStarter = await service.GetWebApiStarter(id);
+        [ProducesResponseType(typeof(WidgetDto), 200)]
+        public async Task<IActionResult> GetWebApiStarter(int id) {
+            var WebApiStarter = await service.GetWidget(id);
             return Ok(WebApiStarter);
         }
 
@@ -65,10 +64,10 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
         /// <returns></returns>
         [HttpPost("")]
         [Authorize(Constants.Authorization.Permissions.CreateWebApiStarter)]
-        [ProducesResponseType(typeof(WebApiStarterDto), 200)]
+        [ProducesResponseType(typeof(WidgetDto), 200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> CreateWebApiStarter(string parameter) {
-            var WebApiStarter = await service.CreateWebApiStarter(parameter);
+            var WebApiStarter = await service.CreateWidget(parameter);
             return Accepted(WebApiStarter);
         }
     }

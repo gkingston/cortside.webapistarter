@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Cortside.DomainEvent.EntityFramework;
 using Cortside.WebApiStarter.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +16,7 @@ namespace Cortside.WebApiStarter.Data {
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public DbSet<Domain.WebApiStarter> WebApiStarter { get; set; }
+        public DbSet<Domain.Widget> WebApiStarter { get; set; }
         public DbSet<Subject> Subjects { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken)) {
@@ -111,13 +110,13 @@ namespace Cortside.WebApiStarter.Data {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.Entity<Domain.WebApiStarter>()
+            modelBuilder.Entity<Domain.Widget>()
                 .HasOne(p => p.CreatedSubject);
-            modelBuilder.Entity<Domain.WebApiStarter>()
+            modelBuilder.Entity<Domain.Widget>()
                 .HasOne(p => p.LastModifiedSubject);
             modelBuilder.HasDefaultSchema("dbo");
 
-            modelBuilder.AddDomainEventOutbox();
+            //modelBuilder.AddDomainEventOutbox();
         }
 
         public Task<int> SaveChangesAsync() {

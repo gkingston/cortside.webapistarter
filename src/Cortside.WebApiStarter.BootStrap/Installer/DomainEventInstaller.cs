@@ -40,12 +40,12 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
             // Register Hosted Services
             services.AddSingleton<IDomainEventPublisher, DomainEventPublisher>();
             services.AddTransient<IDomainEventOutboxPublisher, DomainEventOutboxPublisher<DatabaseContext>>();
-            services.AddTransient<IDomainEventHandler<WebApiStarterCreationEvent>, WebApiStarterCreationEventHandler>();
+            services.AddTransient<IDomainEventHandler<WidgetStageChangedEvent>, WidgetStateChangedHandler>();
             services.AddSingleton<IDomainEventReceiver, DomainEventReceiver>();
 
             var receiverHostedServiceSettings = configuration.GetSection("ReceiverHostedService").Get<ReceiverHostedServiceSettings>();
             receiverHostedServiceSettings.MessageTypes = new Dictionary<string, Type> {
-                { typeof(WebApiStarterCreationEvent).FullName, typeof(WebApiStarterCreationEvent) }
+                { typeof(WidgetStageChangedEvent).FullName, typeof(WidgetStageChangedEvent) }
             };
             services.AddSingleton(receiverHostedServiceSettings);
         }

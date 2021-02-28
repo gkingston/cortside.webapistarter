@@ -5,11 +5,11 @@ namespace Cortside.WebApiStarter.WebApi.Models.Responses {
     /// <summary>
     /// Represents a single loan
     /// </summary>
-    public class WebApiStarterModel {
+    public class WidgetModel {
         /// <summary>
         /// Unique identifier for a WebApiStarter
         /// </summary>
-        public Guid WebApiStarterId { get; set; }
+        public Guid WidgetId { get; set; }
 
         /// <summary>
         /// WebApiStarter type

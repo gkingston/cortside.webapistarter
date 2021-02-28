@@ -3,40 +3,40 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cortside.DomainEvent;
 using Cortside.WebApiStarter.Data;
-using Cortside.WebApiStarter.Dto.Dto;
+using Cortside.WebApiStarter.Dto;
 using Microsoft.Extensions.Logging;
 
 namespace Cortside.WebApiStarter.DomainService {
-    public class WebApiStarterService : IWebApiStarterService {
+    public class WidgetService : IWidgetService {
         private readonly IDatabaseContext db;
         private readonly IDomainEventPublisher publisher;
-        private readonly ILogger<WebApiStarterService> logger;
+        private readonly ILogger<WidgetService> logger;
 
-        public WebApiStarterService(IDatabaseContext db,
+        public WidgetService(IDatabaseContext db,
             IDomainEventPublisher publisher,
-            ILogger<WebApiStarterService> logger) {
+            ILogger<WidgetService> logger) {
             this.db = db;
             this.publisher = publisher;
             this.logger = logger;
         }
 
-        public Task<WebApiStarterDto> CreateWebApiStarter(string parameter) {
+        public Task<WidgetDto> CreateWidget(string parameter) {
             throw new NotImplementedException();
         }
 
-        public Task<WebApiStarterDto> DeleteWebApiStarter(Guid WebApiStarterId) {
+        public Task<WidgetDto> DeleteWidget(int widgetId) {
             throw new NotImplementedException();
         }
 
-        public Task<WebApiStarterDto> GetWebApiStarter(Guid WebApiStarterId) {
+        public Task<WidgetDto> GetWidget(int widgetId) {
             throw new NotImplementedException();
         }
 
-        public Task<List<WebApiStarterDto>> GetWebApiStarters(List<Guid> WebApiStarterIds) {
+        public Task<List<WidgetDto>> GetWidgets(List<int> widgetIds) {
             throw new NotImplementedException();
         }
 
-        public Task<WebApiStarterDto> UpdateWebApiStarter(Guid WebApiStarterId, string parameter) {
+        public Task<WidgetDto> UpdateWidget(int widgetId, string parameter) {
             throw new NotImplementedException();
         }
     }
