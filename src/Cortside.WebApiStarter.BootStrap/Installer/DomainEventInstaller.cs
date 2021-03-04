@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using Cortside.Common.BootStrap;
 using Cortside.DomainEvent;
 using Cortside.DomainEvent.EntityFramework;
+using Cortside.DomainEvent.EntityFramework.Hosting;
 using Cortside.DomainEvent.Events;
+using Cortside.DomainEvent.Handlers;
+using Cortside.DomainEvent.Hosting;
 using Cortside.WebApiStarter.Data;
 using Cortside.WebApiStarter.DomainEvent;
 using Microsoft.Extensions.Configuration;
@@ -13,8 +16,8 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
     public class DomainEventInstaller : IInstaller {
         public void Install(IServiceCollection services, IConfigurationRoot configuration) {
             var config = configuration.GetSection("ServiceBus");
-            var rsettings = new ServiceBusReceiverSettings {
-                Address = config.GetValue<string>("Queue"),
+            var rsettings = new DomainEventReceiverSettings {
+                Queue = config.GetValue<string>("Queue"),
                 AppName = config.GetValue<string>("AppName"),
                 Protocol = config.GetValue<string>("Protocol"),
                 PolicyName = config.GetValue<string>("Policy"),
@@ -25,8 +28,8 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
             };
             services.AddSingleton(rsettings);
 
-            var psettings = new ServiceBusPublisherSettings {
-                Address = config.GetValue<string>("Exchange"),
+            var psettings = new DomainEventPublisherSettings {
+                Topic = config.GetValue<string>("Topic"),
                 AppName = config.GetValue<string>("AppName"),
                 Protocol = config.GetValue<string>("Protocol"),
                 PolicyName = config.GetValue<string>("Policy"),
@@ -43,12 +46,12 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
             services.AddTransient<IDomainEventHandler<WidgetStageChangedEvent>, WidgetStateChangedHandler>();
             services.AddSingleton<IDomainEventReceiver, DomainEventReceiver>();
 
-            // TODO: change settings to be Enabled instead of Disabled
             var receiverHostedServiceSettings = configuration.GetSection("ReceiverHostedService").Get<ReceiverHostedServiceSettings>();
             receiverHostedServiceSettings.MessageTypes = new Dictionary<string, Type> {
                 { typeof(WidgetStageChangedEvent).FullName, typeof(WidgetStageChangedEvent) }
             };
             services.AddSingleton(receiverHostedServiceSettings);
+            services.AddHostedService<ReceiverHostedService>();
 
             // outbox hosted service
             var outboxConfiguration = configuration.GetSection("OutboxHostedService").Get<OutboxHostedServiceConfiguration>();

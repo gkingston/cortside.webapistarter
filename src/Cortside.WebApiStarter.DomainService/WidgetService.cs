@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Cortside.DomainEvent;
 using Cortside.DomainEvent.Events;
@@ -38,6 +37,7 @@ namespace Cortside.WebApiStarter.DomainService {
                     await db.SaveChangesAsync();
                     await tx.CommitAsync();
                 } catch (Exception ex) {
+                    logger.LogError(ex, "unhandled exception");
                     await tx.RollbackAsync();
                     throw;
                 }
@@ -46,12 +46,12 @@ namespace Cortside.WebApiStarter.DomainService {
             return ToWidgetDto(entity);
         }
 
-        public async Task<WidgetDto> DeleteWidget(int widgetId) {
+        public Task<WidgetDto> DeleteWidget(int widgetId) {
             throw new NotImplementedException();
         }
 
         public async Task<WidgetDto> GetWidget(int widgetId) {
-            var entity = db.WebApiStarter.Single(x => x.WidgetId == widgetId);
+            var entity = await db.WebApiStarter.SingleAsync(x => x.WidgetId == widgetId);
             return ToWidgetDto(entity);
         }
 
@@ -67,7 +67,16 @@ namespace Cortside.WebApiStarter.DomainService {
         }
 
         public async Task<WidgetDto> UpdateWidget(WidgetDto dto) {
-            throw new NotImplementedException();
+            var entity = await db.WebApiStarter.FirstOrDefaultAsync(w => w.WidgetId == dto.WidgetId);
+            entity.Text = dto.Text;
+            entity.Width = dto.Width;
+            entity.Height = dto.Height;
+
+            var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
+            await publisher.SendAsync(@event);
+
+            await db.SaveChangesAsync();
+            return ToWidgetDto(entity);
         }
 
         private WidgetDto ToWidgetDto(Domain.Widget entity) {

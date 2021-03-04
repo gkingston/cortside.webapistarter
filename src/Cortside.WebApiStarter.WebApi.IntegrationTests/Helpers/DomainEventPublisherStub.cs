@@ -85,5 +85,13 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers {
         public Task ScheduleMessageAsync(string data, string eventType, string address, string correlationId, string messageId, DateTime scheduledEnqueueTimeUtc) {
             throw new NotImplementedException();
         }
+
+        public Task PublishAsync<T>(T @event, EventOptions options) where T : class {
+            throw new NotImplementedException();
+        }
+
+        public Task ScheduleMessageAsync<T>(T @event, DateTime scheduledEnqueueTimeUtc, EventOptions options) where T : class {
+            throw new NotImplementedException();
+        }
     }
 }

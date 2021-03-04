@@ -34,7 +34,7 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
         /// Gets widgets
         /// </summary>
         [HttpGet("")]
-        ///[Authorize(Constants.Authorization.Permissions.GetWidgets)]
+        //[Authorize(Constants.Authorization.Permissions.GetWidgets)]
         [ProducesResponseType(typeof(List<WidgetDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetWidgets() {
@@ -57,7 +57,7 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
         /// <summary>
         /// Create a new widget
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="input"></param>
         [HttpPost("")]
         //[Authorize(Constants.Authorization.Permissions.CreateWidget)]
         [ProducesResponseType(typeof(WidgetDto), 201)]
@@ -75,7 +75,8 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
         /// <summary>
         /// Update a widget
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
         [HttpPut("{id}")]
         //[Authorize(Constants.Authorization.Permissions.UpdateWidget)]
         [ProducesResponseType(typeof(WidgetDto), 204)]

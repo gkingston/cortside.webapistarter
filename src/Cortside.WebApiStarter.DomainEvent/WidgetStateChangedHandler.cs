@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Cortside.DomainEvent;
 using Cortside.DomainEvent.Events;
+using Cortside.DomainEvent.Handlers;
 using Cortside.WebApiStarter.DomainService;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

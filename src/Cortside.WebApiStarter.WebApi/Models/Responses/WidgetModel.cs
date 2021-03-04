@@ -1,3 +1,5 @@
+#pragma warning disable CS1591
+
 using System;
 
 namespace Cortside.WebApiStarter.WebApi.Models.Responses {
@@ -10,7 +12,6 @@ namespace Cortside.WebApiStarter.WebApi.Models.Responses {
         /// Unique identifier for a WebApiStarter
         /// </summary>
         public Guid WidgetId { get; set; }
-
         public string Text { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
