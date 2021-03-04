@@ -33,7 +33,7 @@ namespace Cortside.WebApiStarter.DomainService {
                     db.WebApiStarter.Add(entity);
                     await db.SaveChangesAsync();
                     var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
-                    await publisher.SendAsync(@event);
+                    await publisher.PublishAsync(@event);
                     await db.SaveChangesAsync();
                     await tx.CommitAsync();
                 } catch (Exception ex) {
@@ -73,7 +73,7 @@ namespace Cortside.WebApiStarter.DomainService {
             entity.Height = dto.Height;
 
             var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
-            await publisher.SendAsync(@event);
+            await publisher.PublishAsync(@event);
 
             await db.SaveChangesAsync();
             return ToWidgetDto(entity);
