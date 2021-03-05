@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Cortside.Common.Correlation" Version="1.0.165" />
-    <PackageReference Include="Cortside.DomainEvent" Version="1.1.55-develop" />
+    <PackageReference Include="Cortside.DomainEvent" Version="1.1.57-develop" />
     <PackageReference Include="PolicyServer.Runtime.Client.AspNetCore" Version="4.2.0" />
     <PackageReference Include="RestSharp" Version="106.11.7" />
   </ItemGroup>
