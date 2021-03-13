@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Cortside.Common.DomainEvent;
+using Cortside.DomainEvent;
 
 namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers {
     public class DomainEventPublisherStub : IDomainEventPublisher {
@@ -18,71 +18,43 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers {
             }
         }
 
-        public Task SendAsync<T>(T @event) where T : class {
-            queue.Add(@event);
-            Closed?.Invoke(this, null);
-            return Task.CompletedTask;
-        }
-
         public void ClearQueue() {
             queue.Clear();
         }
 
-        public Task SendAsync<T>(string eventType, string address, T @event) where T : class {
-            throw new NotImplementedException();
-        }
-
-        public Task SendAsync(string eventType, string address, string data) {
-            throw new NotImplementedException();
-        }
-
-        public Task SendAsync<T>(string eventType, string address, T @event, string correlationId) where T : class {
-            throw new NotImplementedException();
-        }
-
-        public Task SendAsync<T>(T @event, string correlationId) where T : class {
+        public Task PublishAsync<T>(T @event) where T : class {
             queue.Add(@event);
             Closed?.Invoke(this, null);
             return Task.CompletedTask;
         }
 
-        public Task SendAsync(string eventType, string address, string data, string correlationId) {
+        public Task PublishAsync<T>(T @event, string correlationId) where T : class {
+            queue.Add(@event);
+            Closed?.Invoke(this, null);
+            return Task.CompletedTask;
+        }
+
+        public Task PublishAsync<T>(T @event, EventProperties properties) where T : class {
             throw new NotImplementedException();
         }
 
-        public Task SendAsync<T>(T @event, string eventType, string address, string correlationId) where T : class {
+        public Task PublishAsync(string body, EventProperties properties) {
             throw new NotImplementedException();
         }
 
-        public Task ScheduleMessageAsync<T>(T @event, DateTime scheduledEnqueueTimeUtc) where T : class {
+        public Task ScheduleAsync<T>(T @event, DateTime scheduledEnqueueTimeUtc) where T : class {
             throw new NotImplementedException();
         }
 
-        public Task ScheduleMessageAsync<T>(T @event, string correlationId, DateTime scheduledEnqueueTimeUtc) where T : class {
+        public Task ScheduleAsync<T>(T @event, DateTime scheduledEnqueueTimeUtc, string correlationId) where T : class {
             throw new NotImplementedException();
         }
 
-        public Task ScheduleMessageAsync<T>(T @event, string eventType, string address, string correlationId, DateTime scheduledEnqueueTimeUtc) where T : class {
+        public Task ScheduleAsync<T>(T @event, DateTime scheduledEnqueueTimeUtc, EventProperties properties) where T : class {
             throw new NotImplementedException();
         }
 
-        public Task ScheduleMessageAsync(string data, string eventType, string address, string correlationId, DateTime scheduledEnqueueTimeUtc) {
-            throw new NotImplementedException();
-        }
-
-        public Task SendAsync<T>(T @event, string correlationId, string messageId) where T : class {
-            throw new NotImplementedException();
-        }
-
-        public Task SendAsync(string eventType, string address, string data, string correlationId, string messageId) {
-            throw new NotImplementedException();
-        }
-
-        public Task ScheduleMessageAsync<T>(T @event, string correlationId, string messageId, DateTime scheduledEnqueueTimeUtc) where T : class {
-            throw new NotImplementedException();
-        }
-
-        public Task ScheduleMessageAsync(string data, string eventType, string address, string correlationId, string messageId, DateTime scheduledEnqueueTimeUtc) {
+        public Task ScheduleAsync(string body, DateTime scheduledEnqueueTimeUtc, EventProperties properties) {
             throw new NotImplementedException();
         }
     }

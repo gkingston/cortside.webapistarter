@@ -1,6 +1,6 @@
 using System;
 
-namespace Cortside.WebApiStarter.Dto.Dto {
+namespace Cortside.WebApiStarter.Dto {
     public class AuditableEntityDto {
         public DateTime CreatedDate { get; set; }
 

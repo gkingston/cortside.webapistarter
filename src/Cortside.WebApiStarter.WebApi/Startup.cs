@@ -158,6 +158,7 @@ namespace Cortside.WebApiStarter.WebApi {
         /// <param name="app"></param>
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            app.UseMiniProfiler();
             app.UseMiddleware<CorrelationMiddleware>();
 
             app.UseSwagger();

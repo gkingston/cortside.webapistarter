@@ -2,9 +2,11 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Cortside.DomainEvent.EntityFramework;
 using Cortside.WebApiStarter.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cortside.WebApiStarter.Data {
 
@@ -16,7 +18,7 @@ namespace Cortside.WebApiStarter.Data {
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public DbSet<Domain.WebApiStarter> WebApiStarter { get; set; }
+        public DbSet<Domain.Widget> WebApiStarter { get; set; }
         public DbSet<Subject> Subjects { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken)) {
@@ -36,7 +38,6 @@ namespace Cortside.WebApiStarter.Data {
         }
 
         private void SetAuditableEntityValues() {
-
             // check for subject in subjects set and either create or get to attach to AudibleEntity
             var updatingSubject = GetCurrentSubject();
             ChangeTracker.DetectChanges();
@@ -63,7 +64,6 @@ namespace Cortside.WebApiStarter.Data {
         /// </summary>
         /// <returns></returns>
         private Subject GetCurrentSubject() {
-
             var currentUser = GetCurrentUser();
             Guid subjectId = currentUser != null ? Guid.Parse(currentUser) : Guid.Empty;
 
@@ -110,15 +110,47 @@ namespace Cortside.WebApiStarter.Data {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.Entity<Domain.WebApiStarter>()
+            modelBuilder.Entity<Domain.Widget>()
                 .HasOne(p => p.CreatedSubject);
-            modelBuilder.Entity<Domain.WebApiStarter>()
+            modelBuilder.Entity<Domain.Widget>()
                 .HasOne(p => p.LastModifiedSubject);
             modelBuilder.HasDefaultSchema("dbo");
+
+            modelBuilder.AddDomainEventOutbox();
+
+            SetDateTime(modelBuilder);
+            SetCascadeDelete(modelBuilder);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseLazyLoadingProxies();
+        private void SetDateTime(ModelBuilder builder) {
+            // 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM
+            var min = new DateTime(1753, 1, 1, 0, 0, 0);
+            var max = new DateTime(9999, 12, 31, 23, 59, 59);
+
+            var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+                v => v < min ? min : v > max ? max : v,
+                v => v < min ? min : v > max ? max : v);
+
+            var nullableDateTimeConverter = new ValueConverter<DateTime?, DateTime?>(
+                v => v.HasValue ? v < min ? min : v > max ? max : v : v,
+                v => v.HasValue ? v < min ? min : v > max ? max : v : v);
+
+            foreach (var entityType in builder.Model.GetEntityTypes()) {
+                foreach (var property in entityType.GetProperties()) {
+                    if (property.ClrType == typeof(DateTime)) {
+                        property.SetValueConverter(dateTimeConverter);
+                    } else if (property.ClrType == typeof(DateTime?)) {
+                        property.SetValueConverter(nullableDateTimeConverter);
+                    }
+                }
+            }
+        }
+
+        public void SetCascadeDelete(ModelBuilder builder) {
+            var fks = builder.Model.GetEntityTypes().SelectMany(t => t.GetDeclaredForeignKeys());
+            foreach (var fk in fks) {
+                fk.DeleteBehavior = DeleteBehavior.NoAction;
+            }
         }
 
         public Task<int> SaveChangesAsync() {

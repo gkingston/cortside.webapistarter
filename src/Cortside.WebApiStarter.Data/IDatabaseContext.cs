@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cortside.WebApiStarter.Data {
     public interface IDatabaseContext {
-        DbSet<Domain.WebApiStarter> WebApiStarter { get; set; }
+        DbSet<Domain.Widget> WebApiStarter { get; set; }
         DbSet<Subject> Subjects { get; set; }
         Task<int> SaveChangesAsync();
     }

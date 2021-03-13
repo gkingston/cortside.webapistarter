@@ -11,7 +11,8 @@ namespace Cortside.WebApiStarter.BootStrap {
                 new ExampleHostedServiceInstaller(),
                 new HealthInstaller(),
                 new DbContextInstaller(),
-                new DomainInstaller()
+                new DomainInstaller(),
+                new MiniProfilerInstaller()
             };
         }
     }

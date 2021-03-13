@@ -13,6 +13,7 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
             });
             // TODO: this is creating another instance that is different than the one above and does not have EnableSensitiveDataLogging set on it -- need to fix
             services.AddTransient<IDatabaseContext, DatabaseContext>();
+            services.AddScoped<DatabaseContext, DatabaseContext>();
 
             // for DbContextCheck
             services.AddTransient<DbContext, DatabaseContext>();
