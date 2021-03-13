@@ -1,17 +1,14 @@
 #pragma warning disable CS1591
 
 namespace Cortside.WebApiStarter.WebApi {
-
     /// <summary>
     /// Constanst for webapi
     /// </summary>
     public static class Constants {
-
         /// <summary>
         /// Authorization constants
         /// </summary>
         public static class Authorization {
-
             /// <summary>
             /// Permission constants
             /// </summary>

@@ -42,7 +42,7 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
         [ProducesResponseType(typeof(AuthorizationModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPermissions() {
             logger.LogInformation("Retrieving authorization permissions for user.");
-            var authProperties = await policyClient.EvaluateAsync(User);
+            var authProperties = await policyClient.EvaluateAsync(User).ConfigureAwait(false);
             AuthorizationModel responseModel = new AuthorizationModel() {
                 Permissions = authProperties.Permissions.ToList()
             };

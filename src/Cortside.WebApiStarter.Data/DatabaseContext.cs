@@ -9,31 +9,33 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cortside.WebApiStarter.Data {
-
-    public partial class DatabaseContext : DbContext, IDatabaseContext {
-
-        private readonly IHttpContextAccessor _httpContextAccessor;
+    public partial class DatabaseContext : DbContext {
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options, IHttpContextAccessor httpContextAccessor) : base(options) {
-            _httpContextAccessor = httpContextAccessor;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public DbSet<Domain.Widget> WebApiStarter { get; set; }
         public DbSet<Subject> Subjects { get; set; }
 
+        public Task<int> SaveChangesAsync() {
+            SetAuditableEntityValues();
+            return base.SaveChangesAsync(default(System.Threading.CancellationToken));
+        }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken)) {
             SetAuditableEntityValues();
-            return (await base.SaveChangesAsync(true, cancellationToken));
+            return (await base.SaveChangesAsync(true, cancellationToken).ConfigureAwait(false));
         }
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken)) {
             SetAuditableEntityValues();
-            return (await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken));
+            return (await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken).ConfigureAwait(false));
         }
 
         public override int SaveChanges() {
             SetAuditableEntityValues();
-
             return base.SaveChanges();
         }
 
@@ -77,8 +79,8 @@ namespace Cortside.WebApiStarter.Data {
                     SubjectId = subjectId
                 };
                 if (currentUser != null) {
-                    if (_httpContextAccessor != null) {
-                        var httpContext = _httpContextAccessor.HttpContext;
+                    if (httpContextAccessor != null) {
+                        var httpContext = httpContextAccessor.HttpContext;
                         if (httpContext != null) {
                             subject.GivenName = httpContext.User.FindFirst("given_name")?.Value;
                             subject.Name = httpContext.User.FindFirst("name")?.Value;
@@ -90,13 +92,12 @@ namespace Cortside.WebApiStarter.Data {
                 Subjects.Add(subject);
             }
             return subject;
-
         }
 
         private string GetCurrentUser() {
             // IHttpContextAccessor will have be be setup in IoC and injected into context constructor
-            if (_httpContextAccessor != null) {
-                var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContextAccessor != null) {
+                var httpContext = httpContextAccessor.HttpContext;
                 if (httpContext != null) {
                     // If it returns null, even when the user was authenticated, you may try to get the value of a specific claim 
                     var authenticatedUserId = httpContext.User.FindFirst("sub")?.Value;
@@ -151,10 +152,6 @@ namespace Cortside.WebApiStarter.Data {
             foreach (var fk in fks) {
                 fk.DeleteBehavior = DeleteBehavior.NoAction;
             }
-        }
-
-        public Task<int> SaveChangesAsync() {
-            return base.SaveChangesAsync(default(System.Threading.CancellationToken));
         }
     }
 }

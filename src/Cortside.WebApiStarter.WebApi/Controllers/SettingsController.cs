@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace Cortside.WebApiStarter.WebApi.Controllers {
-
     /// <summary>
     /// Settings
     /// </summary>
@@ -14,7 +13,6 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
     [Route("api/settings")]
     [ApiController]
     public class SettingsController : ControllerBase {
-
         /// <summary>
         /// Config
         /// </summary>
@@ -34,12 +32,11 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
         [HttpGet()]
         [ProducesResponseType(typeof(SettingsModel), 200)]
         public async Task<IActionResult> Get() {
-            var result = await Task.Run(() => GetSettingsModel());
+            var result = await Task.Run(() => GetSettingsModel()).ConfigureAwait(false);
             return Ok(result);
         }
 
         private SettingsModel GetSettingsModel() {
-
             var ServiceBus = Configuration.GetSection("ServiceBus");
             var hotDocsSection = Configuration.GetSection("HotDocs");
             var authConfig = Configuration.GetSection("CortsideIdentityApi");

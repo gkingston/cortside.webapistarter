@@ -25,7 +25,7 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Tests {
             //arrange
 
             //act
-            var response = await testServerClient.GetAsync("api/settings");
+            var response = await testServerClient.GetAsync("api/settings").ConfigureAwait(false);
 
             //assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);

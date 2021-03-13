@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Cortside.WebApiStarter.WebApi {
-
     /// <summary>
     /// Extensions
     /// </summary>

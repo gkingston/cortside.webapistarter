@@ -21,7 +21,7 @@ namespace Cortside.WebApiStarter.Health {
                 Timestamp = DateTime.UtcNow
             };
 
-            return await Task.FromResult<ServiceStatusModel>(model);
+            return await Task.FromResult<ServiceStatusModel>(model).ConfigureAwait(false);
         }
     }
 }

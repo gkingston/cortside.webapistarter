@@ -27,21 +27,25 @@ namespace Cortside.WebApiStarter.DomainService {
                 Height = dto.Height
             };
 
-            // need a transaction and 2 savechanges so that I have the id for the widget in the event
-            using (var tx = await db.Database.BeginTransactionAsync()) {
-                try {
-                    db.WebApiStarter.Add(entity);
-                    await db.SaveChangesAsync();
-                    var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
-                    await publisher.PublishAsync(@event);
-                    await db.SaveChangesAsync();
-                    await tx.CommitAsync();
-                } catch (Exception ex) {
-                    logger.LogError(ex, "unhandled exception");
-                    await tx.RollbackAsync();
-                    throw;
+            // user initiated transaction with retry strategy set needs to execute in new strategy 
+            var strategy = db.Database.CreateExecutionStrategy();
+            await strategy.ExecuteAsync(async () => {
+                // need a transaction and 2 savechanges so that I have the id for the widget in the event
+                using (var tx = await db.Database.BeginTransactionAsync().ConfigureAwait(false)) {
+                    try {
+                        db.WebApiStarter.Add(entity);
+                        await db.SaveChangesAsync().ConfigureAwait(false);
+                        var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
+                        await publisher.PublishAsync(@event).ConfigureAwait(false);
+                        await db.SaveChangesAsync().ConfigureAwait(false);
+                        await tx.CommitAsync().ConfigureAwait(false);
+                    } catch (Exception ex) {
+                        logger.LogError(ex, "unhandled exception");
+                        await tx.RollbackAsync().ConfigureAwait(false);
+                        throw;
+                    }
                 }
-            }
+            });
 
             return ToWidgetDto(entity);
         }
@@ -51,12 +55,12 @@ namespace Cortside.WebApiStarter.DomainService {
         }
 
         public async Task<WidgetDto> GetWidget(int widgetId) {
-            var entity = await db.WebApiStarter.SingleAsync(x => x.WidgetId == widgetId);
+            var entity = await db.WebApiStarter.SingleAsync(x => x.WidgetId == widgetId).ConfigureAwait(false);
             return ToWidgetDto(entity);
         }
 
         public async Task<List<WidgetDto>> GetWidgets() {
-            var entities = await db.WebApiStarter.ToListAsync();
+            var entities = await db.WebApiStarter.ToListAsync().ConfigureAwait(false);
 
             var dtos = new List<WidgetDto>();
             foreach (var entity in entities) {
@@ -67,15 +71,15 @@ namespace Cortside.WebApiStarter.DomainService {
         }
 
         public async Task<WidgetDto> UpdateWidget(WidgetDto dto) {
-            var entity = await db.WebApiStarter.FirstOrDefaultAsync(w => w.WidgetId == dto.WidgetId);
+            var entity = await db.WebApiStarter.FirstOrDefaultAsync(w => w.WidgetId == dto.WidgetId).ConfigureAwait(false);
             entity.Text = dto.Text;
             entity.Width = dto.Width;
             entity.Height = dto.Height;
 
             var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
-            await publisher.PublishAsync(@event);
+            await publisher.PublishAsync(@event).ConfigureAwait(false);
 
-            await db.SaveChangesAsync();
+            await db.SaveChangesAsync().ConfigureAwait(false);
             return ToWidgetDto(entity);
         }
 

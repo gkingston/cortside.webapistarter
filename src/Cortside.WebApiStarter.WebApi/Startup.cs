@@ -27,7 +27,6 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 
-
 namespace Cortside.WebApiStarter.WebApi {
     /// <summary>
     /// Startup

@@ -14,7 +14,6 @@ namespace Cortside.WebApiStarter.DomainEvent {
     /// Handles domain event <see cref="WidgetStageChangedEvent"/>
     /// </summary>
     public class WidgetStateChangedHandler : IDomainEventHandler<WidgetStageChangedEvent> {
-
         private readonly IServiceProvider serviceProvider;
         private readonly ILogger<WidgetStateChangedHandler> logger;
 
@@ -35,7 +34,7 @@ namespace Cortside.WebApiStarter.DomainEvent {
 
                 using (IServiceScope scope = serviceProvider.CreateScope()) {
                     IWidgetService service = scope.ServiceProvider.GetRequiredService<IWidgetService>();
-                    var entity = await service.GetWidget(@event.Data.WidgetId);
+                    var entity = await service.GetWidget(@event.Data.WidgetId).ConfigureAwait(false);
                     logger.LogInformation($"widget was observed changing it's state with body: {JsonConvert.SerializeObject(@event.Data)} and entity: {JsonConvert.SerializeObject(entity)}");
                 }
 

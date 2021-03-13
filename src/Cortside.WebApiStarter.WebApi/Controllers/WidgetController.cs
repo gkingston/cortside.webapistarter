@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Cortside.WebApiStarter.WebApi.Controllers {
-
     /// <summary>
     /// Represents the shared functionality/resources of the widget resource
     /// </summary>
@@ -38,7 +37,7 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
         [ProducesResponseType(typeof(List<WidgetDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetWidgets() {
-            var widgets = await service.GetWidgets();
+            var widgets = await service.GetWidgets().ConfigureAwait(false);
             return Ok(widgets);
         }
 
@@ -50,7 +49,7 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
         //[Authorize(Constants.Authorization.Permissions.GetWidget)]
         [ProducesResponseType(typeof(WidgetDto), 200)]
         public async Task<IActionResult> GetWidget(int id) {
-            var widget = await service.GetWidget(id);
+            var widget = await service.GetWidget(id).ConfigureAwait(false);
             return Ok(widget);
         }
 
@@ -68,7 +67,7 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
                 Width = input.Width,
                 Height = input.Height
             };
-            var widget = await service.CreateWidget(dto);
+            var widget = await service.CreateWidget(dto).ConfigureAwait(false);
             return CreatedAtAction(nameof(GetWidget), new { id = widget.WidgetId }, widget);
         }
 
@@ -89,7 +88,7 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
                 Height = input.Height
             };
 
-            var widget = await service.UpdateWidget(dto);
+            var widget = await service.UpdateWidget(dto).ConfigureAwait(false);
             return StatusCode((int)HttpStatusCode.NoContent, widget);
         }
     }

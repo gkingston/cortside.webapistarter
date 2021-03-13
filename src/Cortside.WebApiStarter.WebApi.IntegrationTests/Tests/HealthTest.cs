@@ -29,7 +29,7 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Tests {
             //arrange
 
             //act
-            var response = await testServerClient.GetAsync("api/health");
+            var response = await testServerClient.GetAsync("api/health").ConfigureAwait(false);
 
             //assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);

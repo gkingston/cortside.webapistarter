@@ -3,7 +3,6 @@
 using System;
 
 namespace Cortside.WebApiStarter.WebApi.Models.Responses {
-
     /// <summary>
     /// Represents a single loan
     /// </summary>

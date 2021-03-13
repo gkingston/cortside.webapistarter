@@ -6,7 +6,7 @@
     <Configurations>Production;Develop;QA;Staging;Debug</Configurations>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Cortside.DomainEvent" Version="1.1.63-develop" />
+    <PackageReference Include="Cortside.DomainEvent" Version="1.1.66-develop" />
     <PackageReference Include="coverlet.msbuild" Version="2.9.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

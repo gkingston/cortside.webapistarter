@@ -4,7 +4,6 @@ using Cortside.WebApiStarter.BootStrap.Installer;
 
 namespace Cortside.WebApiStarter.BootStrap {
     public class DefaultApplicationBootStrapper : BootStrapper {
-
         public DefaultApplicationBootStrapper() {
             installers = new List<IInstaller> {
                 new DomainEventInstaller(),

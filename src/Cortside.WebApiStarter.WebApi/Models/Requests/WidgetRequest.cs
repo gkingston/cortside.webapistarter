@@ -1,7 +1,6 @@
 #pragma warning disable CS1591
 
 namespace Cortside.WebApiStarter.WebApi.Models.Requests {
-
     /// <summary>
     /// Represents a single loan
     /// </summary>

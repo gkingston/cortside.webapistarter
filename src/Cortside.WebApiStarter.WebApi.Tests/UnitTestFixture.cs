@@ -20,10 +20,9 @@ namespace Cortside.WebApiStarter.WebApi.Tests {
             return mock;
         }
 
-        public IDatabaseContext GetDatabaseContext() {
+        public DatabaseContext GetDatabaseContext() {
             var databaseContextOptions = new DbContextOptionsBuilder<DatabaseContext>().UseInMemoryDatabase($"db-{Guid.NewGuid():d}").Options;
-            var databaseContextStub = new DatabaseContext(databaseContextOptions, httpContextAccessorMock.Object);
-            return databaseContextStub;
+            return new DatabaseContext(databaseContextOptions, httpContextAccessorMock.Object);
         }
 
         public void TearDown() {

@@ -29,7 +29,7 @@ namespace Cortside.WebApiStarter.DomainService {
                 subjectRow.FamilyName = subject.FamilyName;
                 subjectRow.UserPrincipalName = subject.UserPrincipalName;
             }
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

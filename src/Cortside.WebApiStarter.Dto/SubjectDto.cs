@@ -1,7 +1,6 @@
 using System;
 
 namespace Cortside.WebApiStarter.Dto {
-
     public class SubjectDto {
         public Guid SubjectId { get; set; }
 

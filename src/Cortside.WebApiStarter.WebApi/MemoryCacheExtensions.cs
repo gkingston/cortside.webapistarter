@@ -6,7 +6,6 @@ using System.Reflection;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Cortside.WebApiStarter.WebApi {
-
     /// <summary>
     /// Extensions for MemoryCache
     /// </summary>

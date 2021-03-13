@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cortside.WebApiStarter.Domain {
-
     [Table("Widget")]
     public class Widget : AuditableEntity {
         [Key]
