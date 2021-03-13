@@ -1,4 +1,3 @@
-using System;
 using Cortside.Common.BootStrap;
 using Cortside.WebApiStarter.Data;
 using Microsoft.EntityFrameworkCore;
@@ -9,13 +8,7 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
     public class DbContextInstaller : IInstaller {
         public void Install(IServiceCollection services, IConfigurationRoot configuration) {
             services.AddDbContext<DatabaseContext>(opt => {
-                opt.UseSqlServer(configuration.GetSection("WebApiStarter").GetValue<string>("ConnectionString"),
-                    sqlServerOptionsAction: sqlOptions => {
-                        sqlOptions.EnableRetryOnFailure(
-                            maxRetryCount: 2,
-                            maxRetryDelay: TimeSpan.FromSeconds(1),
-                            errorNumbersToAdd: null);
-                    });
+                opt.UseSqlServer(configuration.GetSection("WebApiStarter").GetValue<string>("ConnectionString"));
                 opt.EnableSensitiveDataLogging();
             });
             // TODO: this is creating another instance that is different than the one above and does not have EnableSensitiveDataLogging set on it -- need to fix
