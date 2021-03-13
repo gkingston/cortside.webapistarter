@@ -2,13 +2,14 @@
 BEGIN TRY
 	BEGIN TRAN
 	PRINT 'First Statement in the TRY block'
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228035338_DomainEventOutbox')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210313191532_DomainEventOutbox')
 BEGIN
     CREATE TABLE [dbo].[Outbox] (
         [MessageId] nvarchar(36) NOT NULL,
         [CorrelationId] nvarchar(36) NULL,
         [EventType] nvarchar(250) NOT NULL,
-        [Address] nvarchar(250) NOT NULL,
+        [Topic] nvarchar(100) NOT NULL,
+        [RoutingKey] nvarchar(100) NOT NULL,
         [Body] nvarchar(max) NOT NULL,
         [Status] nvarchar(10) NOT NULL,
         [CreatedDate] datetime2 NOT NULL,
@@ -20,16 +21,16 @@ BEGIN
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228035338_DomainEventOutbox')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210313191532_DomainEventOutbox')
 BEGIN
     CREATE INDEX [IX_ScheduleDate_Status] ON [dbo].[Outbox] ([ScheduledDate], [Status]) INCLUDE ([EventType]);
 END;
 
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210228035338_DomainEventOutbox')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20210313191532_DomainEventOutbox')
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20210228035338_DomainEventOutbox', N'3.1.12');
+    VALUES (N'20210313191532_DomainEventOutbox', N'3.1.12');
 END;
 
 
