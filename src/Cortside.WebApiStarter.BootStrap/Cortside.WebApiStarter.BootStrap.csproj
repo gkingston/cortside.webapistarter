@@ -3,9 +3,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Cortside.Common.BootStrap" Version="1.0.165" />
-    <PackageReference Include="Cortside.DomainEvent" Version="1.1.66-develop" />
-    <PackageReference Include="Cortside.DomainEvent.EntityFramework" Version="1.1.66-develop" />
+    <PackageReference Include="Cortside.Common.BootStrap" Version="1.0.175" />
+    <PackageReference Include="Cortside.DomainEvent" Version="1.1.70" />
+    <PackageReference Include="Cortside.DomainEvent.EntityFramework" Version="1.1.70" />
     <PackageReference Include="Cortside.Health" Version="1.0.38" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.17.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
