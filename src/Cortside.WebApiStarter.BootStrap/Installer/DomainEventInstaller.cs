@@ -41,7 +41,7 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
             services.AddSingleton(psettings);
 
             // Register Hosted Services
-            services.AddSingleton<IDomainEventPublisher, DomainEventPublisher>();
+            services.AddTransient<IDomainEventPublisher, DomainEventPublisher>();
             services.AddTransient<IDomainEventOutboxPublisher, DomainEventOutboxPublisher<DatabaseContext>>();
             services.AddTransient<IDomainEventHandler<WidgetStageChangedEvent>, WidgetStateChangedHandler>();
             services.AddSingleton<IDomainEventReceiver, DomainEventReceiver>();
