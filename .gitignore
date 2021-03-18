@@ -253,3 +253,4 @@ coverage.opencover.xml
 
 *.ncrunchproject
 *.local.json
+.refsignored

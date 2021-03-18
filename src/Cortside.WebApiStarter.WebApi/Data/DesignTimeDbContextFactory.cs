@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
 namespace Cortside.WebApiStarter.WebApi.Data {
-
     /// <summary>
     /// Design time context factory for EF
     /// https://codingblast.com/entityframework-core-idesigntimedbcontextfactory/
@@ -18,7 +17,6 @@ namespace Cortside.WebApiStarter.WebApi.Data {
         /// 
         /// </summary>
         public DesignTimeDbContextFactory() {
-
         }
         /// <summary>
         /// 
@@ -26,7 +24,6 @@ namespace Cortside.WebApiStarter.WebApi.Data {
         /// <param name="httpContextAccessor"></param>
         public DesignTimeDbContextFactory(IHttpContextAccessor httpContextAccessor) {
             this.httpContextAccessor = httpContextAccessor;
-
         }
 
         /// <summary>

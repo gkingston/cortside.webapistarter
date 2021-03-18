@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cortside.WebApiStarter.Data;
 using Cortside.WebApiStarter.Domain;
-using Cortside.WebApiStarter.Dto.Dto;
+using Cortside.WebApiStarter.Dto;
 
 namespace Cortside.WebApiStarter.DomainService {
     public class SubjectService : ISubjectService {
@@ -29,7 +29,7 @@ namespace Cortside.WebApiStarter.DomainService {
                 subjectRow.FamilyName = subject.FamilyName;
                 subjectRow.UserPrincipalName = subject.UserPrincipalName;
             }
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

@@ -1,5 +1,4 @@
 namespace Cortside.WebApiStarter.WebApi.Models.Responses {
-
     /// <summary>
     /// Configuration
     /// </summary>

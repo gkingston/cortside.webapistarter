@@ -1,10 +1,9 @@
 using System;
+using System.Globalization;
 using System.IO;
-using Cortside.Common.DomainEvent;
 using Cortside.WebApiStarter.WebApi.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -13,7 +12,6 @@ namespace Cortside.WebApiStarter.WebApi {
     /// Program
     /// </summary>
     public static class Program {
-
         /// <summary>
         /// Running environment
         /// </summary>
@@ -55,6 +53,8 @@ namespace Cortside.WebApiStarter.WebApi {
             }
             Log.Logger = loggerConfiguration.CreateLogger();
 
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
             try {
                 Log.Information("Starting {Service}");
                 Log.Information("ASPNETCORE environment = {Environment}");
@@ -86,9 +86,6 @@ namespace Cortside.WebApiStarter.WebApi {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseSerilog();
                     webBuilder.UseKestrel();
-                })
-                .ConfigureServices(services => {
-                    services.AddHostedService<ReceiverHostedService>();
                 });
     }
 }

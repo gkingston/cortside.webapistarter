@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cortside.WebApiStarter.Domain {
-
     /// <summary>
     /// Auditable entity base class
     /// </summary>

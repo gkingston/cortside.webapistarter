@@ -4,15 +4,15 @@ using WireMock.Server;
 
 namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers.HotDocsMock {
     public class SampleWireMock {
+        public WireMockServer mockServer;
 
-        public FluentMockServer mockServer;
         public SampleWireMock() {
             if (mockServer == null) {
-                mockServer = FluentMockServer.Start();
+                mockServer = WireMockServer.Start();
             }
         }
-        public SampleWireMock ConfigureBuilder() {
 
+        public SampleWireMock ConfigureBuilder() {
             mockServer
                 .Given(
                     Request.Create().WithPath($"/".Split('?')[0]).UsingGet()

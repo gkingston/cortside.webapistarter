@@ -2,7 +2,6 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
-using AutoMapper;
 using Cortside.Common.BootStrap;
 using Cortside.Common.Correlation;
 using Cortside.Common.Json;
@@ -27,7 +26,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Serilog;
-
 
 namespace Cortside.WebApiStarter.WebApi {
     /// <summary>
@@ -55,6 +53,13 @@ namespace Cortside.WebApiStarter.WebApi {
         /// </summary>
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services) {
+            services.AddSingleton<ITelemetryInitializer, AppInsightsInitializer>();
+            services.AddApplicationInsightsTelemetry(o => {
+                o.InstrumentationKey = Configuration["ApplicationInsights:InstrumentationKey"];
+                o.EnableAdaptiveSampling = false;
+                o.EnableActiveTelemetryConfigurationSetup = true;
+            });
+
             services.AddResponseCaching();
             services.AddResponseCompression(options => {
                 options.Providers.Add<GzipCompressionProvider>();
@@ -83,6 +88,7 @@ namespace Cortside.WebApiStarter.WebApi {
                     Duration = 30,
                     Location = ResponseCacheLocation.Any
                 });
+                //https://stackoverflow.com/questions/55127637/globally-modelstate-validation-in-asp-net-core-mvc
                 //options.Filters.Add<MessageExceptionResponseFilter>();
             })
                 .AddNewtonsoftJson(options => {
@@ -136,9 +142,6 @@ namespace Cortside.WebApiStarter.WebApi {
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddSingleton<ITelemetryInitializer, AppInsightsInitializer>();
-            services.AddApplicationInsightsTelemetry();
-
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddPolicyServerRuntimeClient(Configuration.GetSection("PolicyServer"))
                 .AddAuthorizationPermissionPolicies();
@@ -154,6 +157,7 @@ namespace Cortside.WebApiStarter.WebApi {
         /// <param name="app"></param>
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            app.UseMiniProfiler();
             app.UseMiddleware<CorrelationMiddleware>();
 
             app.UseSwagger();

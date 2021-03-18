@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Cortside.WebApiStarter.WebApi.Models {
-
     /// <summary>
     /// Build information
     /// </summary>

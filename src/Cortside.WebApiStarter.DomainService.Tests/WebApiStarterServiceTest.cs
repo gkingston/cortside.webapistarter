@@ -1,12 +1,11 @@
-using Cortside.Common.DomainEvent;
+using Cortside.DomainEvent;
 using Cortside.WebApiStarter.Data;
 using Moq;
 using Xunit.Abstractions;
 
 namespace Cortside.WebApiStarter.DomainService.Tests {
-    public class WebApiStartererviceTest : DomainServiceTest<IWebApiStarterService> {
-
-        private readonly IDatabaseContext databaseContext;
+    public class WebApiStartererviceTest : DomainServiceTest<IWidgetService> {
+        private readonly DatabaseContext databaseContext;
         private readonly Mock<IDomainEventPublisher> domainEventPublisherMock;
         private readonly ITestOutputHelper testOutputHelper;
 
@@ -15,6 +14,5 @@ namespace Cortside.WebApiStarter.DomainService.Tests {
             domainEventPublisherMock = testFixture.Mock<IDomainEventPublisher>();
             this.testOutputHelper = testOutputHelper;
         }
-
     }
 }
