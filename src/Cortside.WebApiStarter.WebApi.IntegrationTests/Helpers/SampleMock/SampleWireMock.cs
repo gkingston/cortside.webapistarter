@@ -4,11 +4,11 @@ using WireMock.Server;
 
 namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers.HotDocsMock {
     public class SampleWireMock {
-        public FluentMockServer mockServer;
+        public WireMockServer mockServer;
 
         public SampleWireMock() {
             if (mockServer == null) {
-                mockServer = FluentMockServer.Start();
+                mockServer = WireMockServer.Start();
             }
         }
 

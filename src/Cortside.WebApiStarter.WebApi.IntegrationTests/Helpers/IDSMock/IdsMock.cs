@@ -8,11 +8,11 @@ using WireMock.Server;
 
 namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers.IDSMock {
     public class IdsMock {
-        public FluentMockServer mockServer;
+        public WireMockServer mockServer;
         private readonly IdsConfiguration idsConfiguration;
         private readonly IdsJwks idsJwks;
 
-        public IdsMock(FluentMockServer server) {
+        public IdsMock(WireMockServer server) {
             this.mockServer = server;
             idsConfiguration = JsonConvert.DeserializeObject<IdsConfiguration>(File.ReadAllText(@"./Data/Ids/configuration.json"));
             idsConfiguration.Authorization_endpoint = idsConfiguration.Authorization_endpoint.Replace("https://identityserver.k8s.Cortside.com", mockServer.Urls.First());
