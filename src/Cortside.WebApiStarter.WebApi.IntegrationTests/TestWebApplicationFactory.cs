@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
 using Cortside.WebApiStarter.Data;
+using Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers;
 using Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers.HotDocsMock;
+using EFCore.Seeder.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +15,8 @@ using Serilog;
 
 namespace Cortside.WebApiStarter.WebApi.IntegrationTests {
     public class TestWebApplicationFactory<Startup> : WebApplicationFactory<Startup> where Startup : class {
+        public DatabaseContext Db { get; private set; }
+
         protected override IHostBuilder CreateHostBuilder() {
             var configuration = new ConfigurationBuilder()
                  .AddJsonFile("appsettings.integration.json", optional: false, reloadOnChange: true)
@@ -48,10 +52,15 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests {
                 }
 
                 var dbName = $"DBNAME_{Guid.NewGuid()}";
-                // Add DbContext using an in-memory database for testing.
-                services.AddDbContext<DatabaseContext>(options => {
-                    options.UseInMemoryDatabase(dbName);
-                });
+                var dbOptions = new DbContextOptionsBuilder<DatabaseContext>()
+                    .UseInMemoryDatabase(databaseName: dbName)
+                    .Options;
+
+                var dbContext = new DatabaseContext(dbOptions, null);
+                SeedInMemoryLoanDb(dbContext);
+                services.AddSingleton(dbContext);
+
+                this.Db = dbContext;
 
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();
@@ -61,13 +70,20 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests {
                 using (var scope = sp.CreateScope()) {
                     var scopedServices = scope.ServiceProvider;
                     var db = scopedServices.GetRequiredService<DatabaseContext>();
-                    var logger = scopedServices
-                        .GetRequiredService<ILogger<TestWebApplicationFactory<Startup>>>();
+                    var logger = scopedServices.GetRequiredService<ILogger<TestWebApplicationFactory<Startup>>>();
 
                     // Ensure the database is created.
                     db.Database.EnsureCreated();
                 }
             });
+        }
+
+        private void SeedInMemoryLoanDb(DatabaseContext dbContext) {
+            SeederConfiguration.ResetConfiguration();
+            dbContext.Subjects.SeedFromFile(".\\SeedData\\Subject.csv");
+            dbContext.Widgets.SeedFromFile(".\\SeedData\\Widget.csv");
+
+            Console.Out.WriteLine(dbContext.Widgets.Count());
         }
     }
 }

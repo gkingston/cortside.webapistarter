@@ -33,7 +33,7 @@ namespace Cortside.WebApiStarter.DomainService {
                 // need a transaction and 2 savechanges so that I have the id for the widget in the event
                 using (var tx = await db.Database.BeginTransactionAsync().ConfigureAwait(false)) {
                     try {
-                        db.WebApiStarter.Add(entity);
+                        db.Widgets.Add(entity);
                         await db.SaveChangesAsync().ConfigureAwait(false);
                         var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
                         await publisher.PublishAsync(@event).ConfigureAwait(false);
@@ -55,12 +55,12 @@ namespace Cortside.WebApiStarter.DomainService {
         }
 
         public async Task<WidgetDto> GetWidget(int widgetId) {
-            var entity = await db.WebApiStarter.SingleAsync(x => x.WidgetId == widgetId).ConfigureAwait(false);
+            var entity = await db.Widgets.SingleAsync(x => x.WidgetId == widgetId).ConfigureAwait(false);
             return ToWidgetDto(entity);
         }
 
         public async Task<List<WidgetDto>> GetWidgets() {
-            var entities = await db.WebApiStarter.ToListAsync().ConfigureAwait(false);
+            var entities = await db.Widgets.ToListAsync().ConfigureAwait(false);
 
             var dtos = new List<WidgetDto>();
             foreach (var entity in entities) {
@@ -71,7 +71,7 @@ namespace Cortside.WebApiStarter.DomainService {
         }
 
         public async Task<WidgetDto> UpdateWidget(WidgetDto dto) {
-            var entity = await db.WebApiStarter.FirstOrDefaultAsync(w => w.WidgetId == dto.WidgetId).ConfigureAwait(false);
+            var entity = await db.Widgets.FirstOrDefaultAsync(w => w.WidgetId == dto.WidgetId).ConfigureAwait(false);
             entity.Text = dto.Text;
             entity.Width = dto.Width;
             entity.Height = dto.Height;

@@ -16,7 +16,7 @@ namespace Cortside.WebApiStarter.Data {
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public DbSet<Domain.Widget> WebApiStarter { get; set; }
+        public DbSet<Domain.Widget> Widgets { get; set; }
         public DbSet<Subject> Subjects { get; set; }
 
         public Task<int> SaveChangesAsync() {
