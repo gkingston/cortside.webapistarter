@@ -9,5 +9,6 @@ namespace Cortside.WebApiStarter.DomainService {
         Task<List<WidgetDto>> GetWidgets();
         Task<WidgetDto> UpdateWidget(WidgetDto dto);
         Task<WidgetDto> DeleteWidget(int widgetId);
+        Task PublishWidgetStateChangedEvent(int id);
     }
 }

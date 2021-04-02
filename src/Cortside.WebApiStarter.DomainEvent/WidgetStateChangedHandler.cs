@@ -1,9 +1,11 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Cortside.DomainEvent;
 using Cortside.DomainEvent.Events;
 using Cortside.DomainEvent.Handlers;
 using Cortside.WebApiStarter.DomainService;
+using Medallion.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -33,9 +35,18 @@ namespace Cortside.WebApiStarter.DomainEvent {
                 logger.LogDebug($"Handling {typeof(WidgetStageChangedEvent).Name} for WebApiStarter {@event.Data.WidgetId}");
 
                 using (IServiceScope scope = serviceProvider.CreateScope()) {
-                    IWidgetService service = scope.ServiceProvider.GetRequiredService<IWidgetService>();
-                    var entity = await service.GetWidget(@event.Data.WidgetId).ConfigureAwait(false);
-                    logger.LogInformation($"widget was observed changing it's state with body: {JsonConvert.SerializeObject(@event.Data)} and entity: {JsonConvert.SerializeObject(entity)}");
+                    var service = scope.ServiceProvider.GetRequiredService<IWidgetService>();
+                    var lockProvider = scope.ServiceProvider.GetRequiredService<IDistributedLockProvider>();
+                    var lockName = $"WidgetId:{@event.Data.WidgetId}";
+
+                    logger.LogDebug($"Acquiring lock for {lockName}");
+                    await using (await lockProvider.AcquireLockAsync(lockName).ConfigureAwait(false)) {
+                        logger.LogDebug($"Acquired lock for {lockName}");
+                        var entity = await service.GetWidget(@event.Data.WidgetId).ConfigureAwait(false);
+                        // simulate more work with sleep
+                        Thread.Sleep(TimeSpan.FromSeconds(5));
+                        logger.LogInformation($"widget was observed changing it's state with body: {JsonConvert.SerializeObject(@event.Data)} and entity: {JsonConvert.SerializeObject(entity)}");
+                    }
                 }
 
                 logger.LogDebug($"Successfully handled {typeof(WidgetStageChangedEvent).Name} for WebApiStarter {@event.Data.WidgetId}");

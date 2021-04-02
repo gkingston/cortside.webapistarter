@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Cortside.DomainEvent" Version="1.1.70" />
+    <PackageReference Include="DistributedLock.SqlServer" Version="1.0.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
   </ItemGroup>
   <ItemGroup>

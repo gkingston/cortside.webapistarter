@@ -83,6 +83,14 @@ namespace Cortside.WebApiStarter.DomainService {
             return ToWidgetDto(entity);
         }
 
+        public async Task PublishWidgetStateChangedEvent(int id) {
+            var entity = await db.Widgets.FirstOrDefaultAsync(w => w.WidgetId == id).ConfigureAwait(false);
+
+            var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
+            await publisher.PublishAsync(@event).ConfigureAwait(false);
+            await db.SaveChangesAsync().ConfigureAwait(false);
+        }
+
         private WidgetDto ToWidgetDto(Domain.Widget entity) {
             return new WidgetDto() {
                 WidgetId = entity.WidgetId,

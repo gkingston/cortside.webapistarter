@@ -91,5 +91,18 @@ namespace Cortside.WebApiStarter.WebApi.Controllers {
             var widget = await service.UpdateWidget(dto).ConfigureAwait(false);
             return StatusCode((int)HttpStatusCode.NoContent, widget);
         }
+
+        /// <summary>
+        /// Update a widget
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpPost("{id}/publish")]
+        //[Authorize(Constants.Authorization.Permissions.UpdateWidget)]
+        [ProducesResponseType(typeof(WidgetDto), 204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> PublishWidgetStateChangedEvent(int id) {
+            await service.PublishWidgetStateChangedEvent(id).ConfigureAwait(false);
+            return StatusCode((int)HttpStatusCode.NoContent);
+        }
     }
 }

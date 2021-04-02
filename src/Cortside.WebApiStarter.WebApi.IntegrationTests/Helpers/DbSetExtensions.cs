@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using CsvHelper;
-using EFCore.Seeder.Configuration;
+using CsvHelper.Configuration;
 using EFCore.Seeder.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,13 +17,22 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers {
         /// <param name="dbSet">The DbSet to populate</param>
         /// <param name="stream">The stream containing the CSV file contents</param>
         /// <param name="additionalMapping">Any additonal complex mappings required</param>
-        public static List<T> SeedFromFile<T>(this DbSet<T> dbSet, string filename, params CsvColumnMapping<T>[] additionalMapping)
-            where T : class {
+        public static List<T> SeedFromFile<T>(this DbSet<T> dbSet, string filename, params CsvColumnMapping<T>[] additionalMapping) where T : class {
+            if (!File.Exists(filename)) {
+                throw new FileNotFoundException("not found", filename);
+            }
+
             try {
                 using (var reader = new StreamReader(filename)) {
                     var results = new List<T>();
 
-                    var csvReader = new CsvReader(reader, SeederConfiguration.CsvConfiguration);
+                    var config = new CsvConfiguration(CultureInfo.InvariantCulture) {
+                        IgnoreReferences = true,
+                        IgnoreBlankLines = true,
+                        HeaderValidated = null,
+                        MissingFieldFound = null
+                    };
+                    var csvReader = new CsvReader(reader, config);
                     var map = csvReader.Configuration.AutoMap<T>();
                     map.ReferenceMaps.Clear();
                     csvReader.Configuration.RegisterClassMap(map);
@@ -33,8 +43,7 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers {
                             csvColumnMapping.Execute(csvEntity, csvReader.GetField(csvColumnMapping.CsvColumnName));
                         }
 
-                        SeederConfiguration.DbSetHelper.AddOrUpdate(dbSet, csvEntity);
-
+                        dbSet.Add(csvEntity);
                         results.Add(csvEntity);
                     }
 

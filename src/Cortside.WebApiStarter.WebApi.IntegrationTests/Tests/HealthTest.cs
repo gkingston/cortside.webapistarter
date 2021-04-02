@@ -22,12 +22,18 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Tests {
             });
         }
 
-        [Fact(Skip = "not reliable")]
+        [Fact]
         public async Task Test() {
             //arrange
 
             //act
-            var response = await testServerClient.GetAsync("api/health").ConfigureAwait(false);
+            var success = false;
+            var iterations = 0;
+            HttpResponseMessage response = null;
+            while (!success && iterations < 15) {
+                response = await testServerClient.GetAsync("api/health").ConfigureAwait(false);
+                success = response.IsSuccessStatusCode;
+            }
 
             //assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);

@@ -79,11 +79,11 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests {
         }
 
         private void SeedInMemoryLoanDb(DatabaseContext dbContext) {
-            SeederConfiguration.ResetConfiguration();
             dbContext.Subjects.SeedFromFile(".\\SeedData\\Subject.csv");
-            dbContext.Widgets.SeedFromFile(".\\SeedData\\Widget.csv");
+            dbContext.SaveChanges();
 
-            Console.Out.WriteLine(dbContext.Widgets.Count());
+            dbContext.Widgets.SeedFromFile(".\\SeedData\\Widget.csv");
+            dbContext.SaveChanges();
         }
     }
 }
