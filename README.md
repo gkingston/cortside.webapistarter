@@ -10,11 +10,11 @@
 * IdentityServer/OpenID Connect authentication
 * Policy base authorization
 * Health checks
-** /health endpoint
-** background health service
-** custom check
+  * /health endpoint
+  * background health service
+  * custom check
 * Message publication
-** using outbox pattern for resilience
+  * using outbox pattern for resilience
 * Message consumption
 * distributed lock
 * Timed background service
