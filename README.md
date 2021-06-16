@@ -22,3 +22,5 @@
 * miniprofiler
 * Logging
 * ApplicationInsights
+* integration tests with testserver
+* wiremock for ids and policyserver
