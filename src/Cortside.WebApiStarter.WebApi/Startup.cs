@@ -8,6 +8,7 @@ using Cortside.Common.Json;
 using Cortside.Health.Controllers;
 using Cortside.WebApiStarter.BootStrap;
 using Cortside.WebApiStarter.DomainService;
+using Cortside.WebApiStarter.WebApi.Middleware;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
@@ -180,6 +181,9 @@ namespace Cortside.WebApiStarter.WebApi {
                 .AllowCredentials());
 
             app.UseAuthentication();
+
+            app.UseMiddleware<ImpersonationMiddleware>();
+
             app.UseRouting();
             app.UseEndpoints(
                 endpoints => {

@@ -8,6 +8,8 @@ namespace Cortside.DomainEvent.Events {
         public int Width { get; set; }
         public int Height { get; set; }
 
+        public WidgetStatus Status { get; set; }
+
         public DateTime Timestamp { get; set; }
     }
 }

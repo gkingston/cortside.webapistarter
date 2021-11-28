@@ -17,6 +17,7 @@ namespace Cortside.WebApiStarter.Data {
         }
 
         public DbSet<Domain.Widget> Widgets { get; set; }
+        public DbSet<Domain.Address> Addresses { get; set; }
         public DbSet<Subject> Subjects { get; set; }
 
         public Task<int> SaveChangesAsync() {
@@ -50,6 +51,22 @@ namespace Cortside.WebApiStarter.Data {
                 if (item.Entity is AuditableEntity entity) {
                     ((AuditableEntity)(item.Entity)).LastModifiedSubject = updatingSubject;
                     ((AuditableEntity)(item.Entity)).LastModifiedDate = DateTime.Now.ToUniversalTime();
+                }
+
+                if (item.Entity is IImmutableEntity immutable) {
+                    // TODO: assumes address is only IImmutableEntity
+                    // TODO: need to deduplicate values in changetracker that are local (not yet saved)
+                    var address = immutable as Address;
+                    var persisted = Addresses.Local.FirstOrDefault(x => x.UniqueKey == address.UniqueKey);
+                    if (persisted == null) {
+                        persisted = Addresses.FirstOrDefault(x => x.UniqueKey == address.UniqueKey);
+                    }
+                    if (persisted == null) {
+                        Addresses.Add(address);
+                    }
+
+                    // replace the tracked entity with whatever was found or created
+                    item.CurrentValues.SetValues(persisted);
                 }
             }
 

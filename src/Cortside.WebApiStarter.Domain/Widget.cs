@@ -15,5 +15,7 @@ namespace Cortside.WebApiStarter.Domain {
         public int Width { get; set; }
         [Required]
         public int Height { get; set; }
+
+        //public Address Address { get; set; }
     }
 }

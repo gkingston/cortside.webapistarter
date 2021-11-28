@@ -48,7 +48,6 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
                 factory.RegisterCheck("example", typeof(ExampleCheck));
                 return factory as ICheckFactory;
             });
-            services.AddHostedService<HealthCheckHostedService>();
         }
     }
 }

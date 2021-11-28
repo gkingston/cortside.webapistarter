@@ -8,7 +8,6 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
     public class ExampleHostedServiceInstaller : IInstaller {
         public void Install(IServiceCollection services, IConfigurationRoot configuration) {
             services.AddSingleton(configuration.GetSection("ExampleHostedService").Get<ExampleHostedServiceConfiguration>());
-            services.AddHostedService<ExampleHostedService>();
         }
     }
 }

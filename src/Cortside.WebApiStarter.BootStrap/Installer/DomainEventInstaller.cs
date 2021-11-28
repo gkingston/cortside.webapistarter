@@ -11,6 +11,9 @@ using Cortside.WebApiStarter.Data;
 using Cortside.WebApiStarter.DomainEvent;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Cortside.WebApiStarter.BootStrap.Installer {
     public class DomainEventInstaller : IInstaller {
@@ -36,7 +39,13 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
                 Key = config.GetValue<string>("Key"),
                 Namespace = config.GetValue<string>("Namespace"),
                 Durable = 1,
-                Credits = config.GetValue<int>("Credits")
+                Credits = config.GetValue<int>("Credits"),
+                SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings() {
+                    Converters = new List<JsonConverter>
+                    {
+                        new StringEnumConverter(new DefaultNamingStrategy())
+                    }
+                }
             };
             services.AddSingleton(psettings);
 
@@ -51,12 +60,10 @@ namespace Cortside.WebApiStarter.BootStrap.Installer {
                 { typeof(WidgetStageChangedEvent).FullName, typeof(WidgetStageChangedEvent) }
             };
             services.AddSingleton(receiverHostedServiceSettings);
-            services.AddHostedService<ReceiverHostedService>();
 
             // outbox hosted service
             var outboxConfiguration = configuration.GetSection("OutboxHostedService").Get<OutboxHostedServiceConfiguration>();
             services.AddSingleton(outboxConfiguration);
-            services.AddHostedService<OutboxHostedService<DatabaseContext>>();
         }
     }
 }

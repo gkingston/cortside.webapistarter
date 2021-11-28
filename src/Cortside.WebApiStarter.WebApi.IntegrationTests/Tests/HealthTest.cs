@@ -37,7 +37,8 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Tests {
 
             //assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var respObj = JsonConvert.DeserializeObject<HealthModel>(response.Content.ReadAsStringAsync().Result);
+            var s = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var respObj = JsonConvert.DeserializeObject<HealthModel>(s);
             Assert.True(respObj.Healthy);
         }
     }

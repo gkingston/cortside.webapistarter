@@ -35,7 +35,7 @@ namespace Cortside.WebApiStarter.DomainService {
                     try {
                         db.Widgets.Add(entity);
                         await db.SaveChangesAsync().ConfigureAwait(false);
-                        var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
+                        var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow, Status = WidgetStatus.Created };
                         await publisher.PublishAsync(@event).ConfigureAwait(false);
                         await db.SaveChangesAsync().ConfigureAwait(false);
                         await tx.CommitAsync().ConfigureAwait(false);
@@ -76,7 +76,7 @@ namespace Cortside.WebApiStarter.DomainService {
             entity.Width = dto.Width;
             entity.Height = dto.Height;
 
-            var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };
+            var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow, Status = WidgetStatus.Updated };
             await publisher.PublishAsync(@event).ConfigureAwait(false);
 
             await db.SaveChangesAsync().ConfigureAwait(false);

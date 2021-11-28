@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cortside.Common.Correlation" Version="1.0.175" />
+    <PackageReference Include="Cortside.Common.Correlation" Version="1.0.195" />
     <PackageReference Include="Cortside.Health" Version="1.0.38" />
   </ItemGroup>
 

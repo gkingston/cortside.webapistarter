@@ -1,9 +1,15 @@
 using System;
 using System.Globalization;
 using System.IO;
+using Cortside.DomainEvent.EntityFramework.Hosting;
+using Cortside.DomainEvent.Hosting;
+using Cortside.Health;
+using Cortside.WebApiStarter.Data;
+using Cortside.WebApiStarter.Hosting;
 using Cortside.WebApiStarter.WebApi.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -86,6 +92,13 @@ namespace Cortside.WebApiStarter.WebApi {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseSerilog();
                     webBuilder.UseKestrel();
+                })
+                // Register IHostedServices AFTER ConfigureWebHostDefaults
+                .ConfigureServices(services => {
+                    services.AddHostedService<HealthCheckHostedService>();
+                    services.AddHostedService<ReceiverHostedService>();
+                    services.AddHostedService<OutboxHostedService<DatabaseContext>>();
+                    services.AddHostedService<ExampleHostedService>();
                 });
     }
 }

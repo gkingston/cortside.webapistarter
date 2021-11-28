@@ -12,12 +12,14 @@ using Newtonsoft.Json;
 using Serilog.Context;
 
 namespace Cortside.WebApiStarter.DomainEvent {
+
     /// <summary>
     /// Handles domain event <see cref="WidgetStageChangedEvent"/>
     /// </summary>
     public class WidgetStateChangedHandler : IDomainEventHandler<WidgetStageChangedEvent> {
         private readonly IServiceProvider serviceProvider;
         private readonly ILogger<WidgetStateChangedHandler> logger;
+        private readonly Random rand;
 
         /// <summary>
         /// Constructor
@@ -27,7 +29,9 @@ namespace Cortside.WebApiStarter.DomainEvent {
         public WidgetStateChangedHandler(IServiceProvider serviceProvider, ILogger<WidgetStateChangedHandler> logger) {
             this.serviceProvider = serviceProvider;
             this.logger = logger;
+            rand = new Random();
         }
+
         public async Task<HandlerResult> HandleAsync(DomainEventMessage<WidgetStageChangedEvent> @event) {
             using (LogContext.PushProperty("MessageId", @event.MessageId))
             using (LogContext.PushProperty("CorrelationId", @event.CorrelationId))
@@ -49,8 +53,10 @@ namespace Cortside.WebApiStarter.DomainEvent {
                     }
                 }
 
-                logger.LogDebug($"Successfully handled {typeof(WidgetStageChangedEvent).Name} for WebApiStarter {@event.Data.WidgetId}");
-                return HandlerResult.Success;
+                //if (@event.DeliveryCount > 3) {
+                //    return HandlerResult.Success;
+                //}
+                return HandlerResult.Retry;
             }
         }
     }
