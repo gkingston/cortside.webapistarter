@@ -9,12 +9,12 @@ using Xunit;
 using Xunit.Abstractions;
 
 namespace Cortside.WebApiStarter.WebApi.IntegrationTests.Tests {
-    public class HealthTest : IClassFixture<TestWebApplicationFactory<Startup>> {
-        private readonly TestWebApplicationFactory<Startup> fixture;
+    public class HealthTest : IClassFixture<IntegrationTestFactory<Startup>> {
+        private readonly IntegrationTestFactory<Startup> fixture;
         private readonly ITestOutputHelper testOutputHelper;
         private readonly HttpClient testServerClient;
 
-        public HealthTest(TestWebApplicationFactory<Startup> fixture, ITestOutputHelper testOutputHelper) {
+        public HealthTest(IntegrationTestFactory<Startup> fixture, ITestOutputHelper testOutputHelper) {
             this.fixture = fixture;
             this.testOutputHelper = testOutputHelper;
             testServerClient = fixture.CreateClient(new WebApplicationFactoryClientOptions {

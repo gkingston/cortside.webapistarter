@@ -3,10 +3,10 @@ using System.Linq;
 using Cortside.WebApiStarter.Data;
 using Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers;
 using Cortside.WebApiStarter.WebApi.IntegrationTests.Helpers.HotDocsMock;
-using EFCore.Seeder.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,7 +14,8 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace Cortside.WebApiStarter.WebApi.IntegrationTests {
-    public class TestWebApplicationFactory<Startup> : WebApplicationFactory<Startup> where Startup : class {
+
+    public class IntegrationTestFactory<Startup> : WebApplicationFactory<Startup> where Startup : class {
         public DatabaseContext Db { get; private set; }
 
         protected override IHostBuilder CreateHostBuilder() {
@@ -54,6 +55,7 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests {
                 var dbName = $"DBNAME_{Guid.NewGuid()}";
                 var dbOptions = new DbContextOptionsBuilder<DatabaseContext>()
                     .UseInMemoryDatabase(databaseName: dbName)
+                    .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                     .Options;
 
                 var dbContext = new DatabaseContext(dbOptions, null);
@@ -70,7 +72,7 @@ namespace Cortside.WebApiStarter.WebApi.IntegrationTests {
                 using (var scope = sp.CreateScope()) {
                     var scopedServices = scope.ServiceProvider;
                     var db = scopedServices.GetRequiredService<DatabaseContext>();
-                    var logger = scopedServices.GetRequiredService<ILogger<TestWebApplicationFactory<Startup>>>();
+                    var logger = scopedServices.GetRequiredService<ILogger<IntegrationTestFactory<Startup>>>();
 
                     // Ensure the database is created.
                     db.Database.EnsureCreated();

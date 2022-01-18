@@ -4,8 +4,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Cortside.Common.BootStrap" Version="1.1.197-develop" />
-    <PackageReference Include="Cortside.DomainEvent" Version="1.1.141-stubs" />
-    <PackageReference Include="Cortside.DomainEvent.EntityFramework" Version="1.1.141-stubs" />
+    <PackageReference Include="Cortside.DomainEvent" Version="1.1.146-stubs" />
+    <PackageReference Include="Cortside.DomainEvent.EntityFramework" Version="1.1.146-stubs" />
     <PackageReference Include="Cortside.Health" Version="1.0.42-efcore5" />
     <PackageReference Include="DistributedLock.SqlServer" Version="1.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.19.0" />

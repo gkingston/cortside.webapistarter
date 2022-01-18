@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Serilog.Context;
 
 namespace Cortside.WebApiStarter.DomainEvent {
+
     /// <summary>
     /// Handles domain event <see cref="WidgetStageChangedEvent"/>
     /// </summary>
@@ -28,6 +29,7 @@ namespace Cortside.WebApiStarter.DomainEvent {
             this.serviceProvider = serviceProvider;
             this.logger = logger;
         }
+
         public async Task<HandlerResult> HandleAsync(DomainEventMessage<WidgetStageChangedEvent> @event) {
             using (LogContext.PushProperty("MessageId", @event.MessageId))
             using (LogContext.PushProperty("CorrelationId", @event.CorrelationId))
