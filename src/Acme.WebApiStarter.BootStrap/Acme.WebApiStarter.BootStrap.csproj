@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Cortside.Common.BootStrap" Version="1.1.209-develop" />
+    <PackageReference Include="Cortside.DomainEvent" Version="1.1.159" />
+    <PackageReference Include="Cortside.DomainEvent.EntityFramework" Version="1.1.159" />
+    <PackageReference Include="Cortside.Health" Version="1.0.46" />
+    <PackageReference Include="DistributedLock.SqlServer" Version="1.0.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
+    <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.2.22" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Acme.DomainEvent.Events\Acme.DomainEvent.Events.csproj" />
+    <ProjectReference Include="..\Acme.WebApiStarter.Configuration\Acme.WebApiStarter.Configuration.csproj" />
+    <ProjectReference Include="..\Acme.WebApiStarter.Data\Acme.WebApiStarter.Data.csproj" />
+    <ProjectReference Include="..\Acme.WebApiStarter.DomainEvent\Acme.WebApiStarter.DomainEvent.csproj" />
+    <ProjectReference Include="..\Acme.WebApiStarter.DomainService\Acme.WebApiStarter.DomainService.csproj" />
+    <ProjectReference Include="..\Acme.WebApiStarter.Health\Acme.WebApiStarter.Health.csproj" />
+    <ProjectReference Include="..\Acme.WebApiStarter.Hosting\Acme.WebApiStarter.Hosting.csproj" />
+  </ItemGroup>
+</Project>
