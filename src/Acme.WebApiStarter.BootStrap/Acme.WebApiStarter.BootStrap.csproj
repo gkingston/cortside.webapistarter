@@ -1,14 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Cortside.Common.BootStrap" Version="1.1.209-develop" />
-    <PackageReference Include="Cortside.DomainEvent" Version="1.1.159" />
-    <PackageReference Include="Cortside.DomainEvent.EntityFramework" Version="1.1.159" />
-    <PackageReference Include="Cortside.Health" Version="1.0.46" />
+    <PackageReference Include="Cortside.Common.BootStrap" Version="1.1.226" />
+    <PackageReference Include="Cortside.DomainEvent" Version="1.1.168" />
+    <PackageReference Include="Cortside.DomainEvent.EntityFramework" Version="1.1.168" />
+    <PackageReference Include="Cortside.Health" Version="1.0.51" />
     <PackageReference Include="DistributedLock.SqlServer" Version="1.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.2.32">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
     <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.2.22" />
   </ItemGroup>

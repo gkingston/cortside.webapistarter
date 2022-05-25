@@ -21,7 +21,7 @@ namespace Acme.WebApiStarter.WebApi.IntegrationTests.Tests {
         }
 
         [Fact]
-        public async Task Test() {
+        public async Task TestAsync() {
             //arrange
 
             //act

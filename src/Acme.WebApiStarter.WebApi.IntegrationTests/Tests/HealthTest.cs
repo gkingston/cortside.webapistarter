@@ -23,7 +23,7 @@ namespace Acme.WebApiStarter.WebApi.IntegrationTests.Tests {
         }
 
         [Fact]
-        public async Task Test() {
+        public async Task TestAsync() {
             //arrange
 
             //act
@@ -37,7 +37,7 @@ namespace Acme.WebApiStarter.WebApi.IntegrationTests.Tests {
 
             //assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var respObj = JsonConvert.DeserializeObject<HealthModel>(response.Content.ReadAsStringAsync().Result);
+            var respObj = JsonConvert.DeserializeObject<HealthModel>(await response.Content.ReadAsStringAsync());
             Assert.True(respObj.Healthy);
         }
     }

@@ -27,7 +27,7 @@ namespace Acme.WebApiStarter.WebApi.IntegrationTests.Tests {
         }
 
         [Fact]
-        public async Task ShouldCreateWidget() {
+        public async Task ShouldCreateWidgetAsync() {
             //arrange
             var request = new WidgetRequest() {
                 Text = Guid.NewGuid().ToString(),
@@ -45,7 +45,7 @@ namespace Acme.WebApiStarter.WebApi.IntegrationTests.Tests {
         }
 
         [Fact]
-        public async Task ShouldGetWidget() {
+        public async Task ShouldGetWidgetAsync() {
             //arrange
             var id = fixture.Db.Widgets.First().WidgetId;
 

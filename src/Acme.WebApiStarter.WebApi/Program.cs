@@ -84,8 +84,8 @@ namespace Acme.WebApiStarter.WebApi {
                 })
                 .ConfigureWebHostDefaults(webBuilder => {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseSerilog();
                     webBuilder.UseKestrel();
-                });
+                })
+                .UseSerilog();
     }
 }

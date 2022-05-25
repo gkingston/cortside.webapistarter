@@ -20,7 +20,7 @@ namespace Acme.WebApiStarter.DomainService {
             this.logger = logger;
         }
 
-        public async Task<WidgetDto> CreateWidget(WidgetDto dto) {
+        public async Task<WidgetDto> CreateWidgetAsync(WidgetDto dto) {
             var entity = new Domain.Widget() {
                 Text = dto.Text,
                 Width = dto.Width,
@@ -50,16 +50,16 @@ namespace Acme.WebApiStarter.DomainService {
             return ToWidgetDto(entity);
         }
 
-        public Task<WidgetDto> DeleteWidget(int widgetId) {
+        public Task<WidgetDto> DeleteWidgetAsync(int widgetId) {
             throw new NotImplementedException();
         }
 
-        public async Task<WidgetDto> GetWidget(int widgetId) {
+        public async Task<WidgetDto> GetWidgetAsync(int widgetId) {
             var entity = await db.Widgets.SingleAsync(x => x.WidgetId == widgetId).ConfigureAwait(false);
             return ToWidgetDto(entity);
         }
 
-        public async Task<List<WidgetDto>> GetWidgets() {
+        public async Task<List<WidgetDto>> GetWidgetsAsync() {
             var entities = await db.Widgets.ToListAsync().ConfigureAwait(false);
 
             var dtos = new List<WidgetDto>();
@@ -70,7 +70,7 @@ namespace Acme.WebApiStarter.DomainService {
             return dtos;
         }
 
-        public async Task<WidgetDto> UpdateWidget(WidgetDto dto) {
+        public async Task<WidgetDto> UpdateWidgetAsync(WidgetDto dto) {
             var entity = await db.Widgets.FirstOrDefaultAsync(w => w.WidgetId == dto.WidgetId).ConfigureAwait(false);
             entity.Text = dto.Text;
             entity.Width = dto.Width;
@@ -83,7 +83,7 @@ namespace Acme.WebApiStarter.DomainService {
             return ToWidgetDto(entity);
         }
 
-        public async Task PublishWidgetStateChangedEvent(int id) {
+        public async Task PublishWidgetStateChangedEventAsync(int id) {
             var entity = await db.Widgets.FirstOrDefaultAsync(w => w.WidgetId == id).ConfigureAwait(false);
 
             var @event = new WidgetStageChangedEvent() { WidgetId = entity.WidgetId, Text = entity.Text, Width = entity.Width, Height = entity.Height, Timestamp = DateTime.UtcNow };

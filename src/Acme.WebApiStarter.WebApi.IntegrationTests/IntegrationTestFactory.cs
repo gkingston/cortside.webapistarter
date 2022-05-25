@@ -34,11 +34,11 @@ namespace Acme.WebApiStarter.WebApi.IntegrationTests {
                 .ConfigureAppConfiguration(builder => {
                     builder.AddConfiguration(configuration);
                 })
-                .ConfigureWebHostDefaults(webbuilder => {
-                    webbuilder
-                    .UseStartup<Startup>()
-                    .UseSerilog();
-                });
+                .ConfigureWebHostDefaults(webBuilder => {
+                    webBuilder
+                        .UseStartup<Startup>();
+                })
+                .UseSerilog();
         }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder) {

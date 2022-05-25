@@ -12,7 +12,7 @@ namespace Acme.WebApiStarter.DomainService {
         public SubjectService(DatabaseContext dbContext) {
             this.dbContext = dbContext;
         }
-        public async Task Save(SubjectDto subject) {
+        public async Task SaveAsync(SubjectDto subject) {
             var subjectRow = dbContext.Subjects.FirstOrDefault(s => s.SubjectId == subject.SubjectId);
             if (subjectRow == null) {
                 dbContext.Subjects.Add(new Subject() {

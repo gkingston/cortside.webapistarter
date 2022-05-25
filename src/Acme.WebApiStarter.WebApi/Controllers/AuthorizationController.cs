@@ -40,7 +40,7 @@ namespace Acme.WebApiStarter.WebApi.Controllers {
         /// <returns>The list of permissions</returns>
         [HttpGet("")]
         [ProducesResponseType(typeof(AuthorizationModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetPermissions() {
+        public async Task<IActionResult> GetPermissionsAsync() {
             logger.LogInformation("Retrieving authorization permissions for user.");
             var authProperties = await policyClient.EvaluateAsync(User).ConfigureAwait(false);
             AuthorizationModel responseModel = new AuthorizationModel() {

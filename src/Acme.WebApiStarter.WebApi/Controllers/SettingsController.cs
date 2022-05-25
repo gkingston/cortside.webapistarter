@@ -31,7 +31,7 @@ namespace Acme.WebApiStarter.WebApi.Controllers {
         /// <returns></returns>
         [HttpGet()]
         [ProducesResponseType(typeof(SettingsModel), 200)]
-        public async Task<IActionResult> Get() {
+        public async Task<IActionResult> GetAsync() {
             var result = await Task.Run(() => GetSettingsModel()).ConfigureAwait(false);
             return Ok(result);
         }

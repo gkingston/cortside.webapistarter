@@ -36,8 +36,8 @@ namespace Acme.WebApiStarter.WebApi.Controllers {
         //[Authorize(Constants.Authorization.Permissions.GetWidgets)]
         [ProducesResponseType(typeof(List<WidgetDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> GetWidgets() {
-            var widgets = await service.GetWidgets().ConfigureAwait(false);
+        public async Task<IActionResult> GetWidgetsAsync() {
+            var widgets = await service.GetWidgetsAsync().ConfigureAwait(false);
             return Ok(widgets);
         }
 
@@ -48,8 +48,8 @@ namespace Acme.WebApiStarter.WebApi.Controllers {
         [HttpGet("{id}", Name = GET_WIDGET_ROUTE)]
         //[Authorize(Constants.Authorization.Permissions.GetWidget)]
         [ProducesResponseType(typeof(WidgetDto), 200)]
-        public async Task<IActionResult> GetWidget(int id) {
-            var widget = await service.GetWidget(id).ConfigureAwait(false);
+        public async Task<IActionResult> GetWidgetAsync(int id) {
+            var widget = await service.GetWidgetAsync(id).ConfigureAwait(false);
             return Ok(widget);
         }
 
@@ -61,14 +61,14 @@ namespace Acme.WebApiStarter.WebApi.Controllers {
         //[Authorize(Constants.Authorization.Permissions.CreateWidget)]
         [ProducesResponseType(typeof(WidgetDto), 201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> CreateWidget([FromBody] WidgetRequest input) {
+        public async Task<IActionResult> CreateWidgetAsync([FromBody] WidgetRequest input) {
             var dto = new WidgetDto() {
                 Text = input.Text,
                 Width = input.Width,
                 Height = input.Height
             };
-            var widget = await service.CreateWidget(dto).ConfigureAwait(false);
-            return CreatedAtAction(nameof(GetWidget), new { id = widget.WidgetId }, widget);
+            var widget = await service.CreateWidgetAsync(dto).ConfigureAwait(false);
+            return CreatedAtAction("GetWidget", new { id = widget.WidgetId }, widget);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Acme.WebApiStarter.WebApi.Controllers {
         //[Authorize(Constants.Authorization.Permissions.UpdateWidget)]
         [ProducesResponseType(typeof(WidgetDto), 204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> UpdateWidget(int id, WidgetRequest input) {
+        public async Task<IActionResult> UpdateWidgetAsync(int id, WidgetRequest input) {
             var dto = new WidgetDto() {
                 WidgetId = id,
                 Text = input.Text,
@@ -88,7 +88,7 @@ namespace Acme.WebApiStarter.WebApi.Controllers {
                 Height = input.Height
             };
 
-            var widget = await service.UpdateWidget(dto).ConfigureAwait(false);
+            var widget = await service.UpdateWidgetAsync(dto).ConfigureAwait(false);
             return StatusCode((int)HttpStatusCode.NoContent, widget);
         }
 
@@ -100,8 +100,8 @@ namespace Acme.WebApiStarter.WebApi.Controllers {
         //[Authorize(Constants.Authorization.Permissions.UpdateWidget)]
         [ProducesResponseType(typeof(WidgetDto), 204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> PublishWidgetStateChangedEvent(int id) {
-            await service.PublishWidgetStateChangedEvent(id).ConfigureAwait(false);
+        public async Task<IActionResult> PublishWidgetStateChangedEventAsync(int id) {
+            await service.PublishWidgetStateChangedEventAsync(id).ConfigureAwait(false);
             return StatusCode((int)HttpStatusCode.NoContent);
         }
     }
