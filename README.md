@@ -1,8 +1,8 @@
 # cortside.webapistarter
 
 # Pre-Requisites
-* .NET 5.0 SDK
-* Visual Studio 2019
+* .NET 6.0 SDK
+* Visual Studio 2019+ or JetBrains Rider
   
 
 # Features
